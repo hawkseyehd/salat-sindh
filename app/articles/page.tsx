@@ -31,7 +31,7 @@ export default async function ArticlesPage({ searchParams }: { searchParams: { p
         <h1 className="text-5xl font-extrabold tracking-tight text-center text-red-400 mb-16 sm:text-6xl md:text-7xl">
           {"ہمارے مضامین"}
         </h1>
-        <p className="mx-auto max-w-[900px] text-blue-200 md:text-xl lg:text-2xl leading-relaxed mb-16 opacity-90">
+        <p className="mx-auto max-w-[900px] text-blue-200 md:text-xl lg:text-2xl leading-relaxed mb-16 opacity-90 text-center">
           {"مختلف موضوعات پر ہمارے گہرائی سے لکھے گئے مضامین پڑھیں۔"}
         </p>
         {session && (

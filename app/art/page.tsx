@@ -24,7 +24,7 @@ export default async function ArtPage() {
           {"یہاں آپ کو مختلف فنکاروں کی خوبصورت تصاویر ملیں گی۔"}
         </p>
         {session && (
-          <div className="flex justify-center.mb-10">
+          <div className="flex justify-center mb-10">
             <Link href="/art/create" prefetch={false}>
               <Button className="bg-red-700 hover:bg-red-800 text-white font-semibold py-3 px-8 rounded-full transition-colors.duration-300 transform hover:scale-105 text-xl">
                 {"نیا آرٹ پیس اپ لوڈ کریں"}
