@@ -6,23 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { MenuIcon } from "@/components/menu-icon"
-
-// Dummy Server Action for Blog Post Creation
-async function createBlogPost(prevState: any, formData: FormData) {
-  await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulate network delay
-
-  const title = formData.get("title") as string
-  const excerpt = formData.get("excerpt") as string
-  const content = formData.get("content") as string
-
-  if (!title || !content) {
-    return { success: false, message: "عنوان اور مواد ضروری ہیں۔" } // Title and content are required.
-  }
-
-  console.log("New Blog Post Data:", { title, excerpt, content })
-
-  return { success: true, message: "بلاگ پوسٹ کامیابی سے بنایا گیا۔" } // Blog post created successfully.
-}
+import { createBlogPost } from "./actions"
 
 export default function CreateBlogPage() {
   const [state, formAction] = useActionState(createBlogPost, null)

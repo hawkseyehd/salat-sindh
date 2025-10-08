@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { Header } from "./header";
+import { AuthHeader } from "./auth-header";
 import { Footer } from "./footer";
 
 interface PageLayoutProps {
@@ -17,7 +17,8 @@ export function PageLayout({
 }: PageLayoutProps) {
   return (
     <div className={`flex flex-col min-h-[100dvh] bg-gray-950 text-blue-200 ${className}`} dir="rtl">
-      <Header currentPath={currentPath} showAuthLinks={showAuthLinks} />
+
+      <AuthHeader currentPath={currentPath} showAuthLinks={showAuthLinks} />
       <main className="flex-1">
         {children}
       </main>

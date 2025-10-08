@@ -29,7 +29,7 @@ const navLinks: NavLink[] = [
 export function Header({ currentPath = "/", showAuthLinks = true }: HeaderProps) {
   return (
     <header className="sticky top-0 z-40 w-full bg-gray-900/80 backdrop-blur-sm shadow-lg border-b border-blue-700/30">
-      <div className="container flex h-24 items-center justify-between px-4 md:px-8 mx-auto">
+      <div className="max-w-6xl mx-auto flex h-24 items-center justify-between px-4 md:px-8">
         <Link href="/" className="flex items-center gap-2 text-4xl font-extrabold text-red-400" prefetch={false}>
           <span className="text-5xl">بلاگ</span>
         </Link>

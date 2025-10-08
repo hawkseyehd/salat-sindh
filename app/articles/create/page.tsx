@@ -6,23 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { MenuIcon } from "@/components/menu-icon"
-
-// Dummy Server Action for Article Creation
-async function createArticle(prevState: any, formData: FormData) {
-  await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulate network delay
-
-  const title = formData.get("title") as string
-  const excerpt = formData.get("excerpt") as string
-  const content = formData.get("content") as string
-
-  if (!title || !content) {
-    return { success: false, message: "عنوان اور مواد ضروری ہیں۔" } // Title and content are required.
-  }
-
-  console.log("New Article Data:", { title, excerpt, content })
-
-  return { success: true, message: "مضمون کامیابی سے بنایا گیا۔" } // Article created successfully.
-}
+import { createArticle } from "./actions"
 
 export default function CreateArticlePage() {
   const [state, formAction] = useActionState(createArticle, null)

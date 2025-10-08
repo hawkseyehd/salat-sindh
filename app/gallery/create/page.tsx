@@ -5,23 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { MenuIcon } from "@/components/menu-icon"
-
-// Dummy Server Action for Gallery Image Creation
-async function createGalleryImage(prevState: any, formData: FormData) {
-  await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulate network delay
-
-  const title = formData.get("title") as string
-  const category = formData.get("category") as string
-  const imageFile = formData.get("image") as File // In a real app, you'd handle file uploads
-
-  if (!title || !imageFile || imageFile.size === 0) {
-    return { success: false, message: "عنوان اور تصویر ضروری ہیں۔" } // Title and image are required.
-  }
-
-  console.log("New Gallery Image Data:", { title, category, fileName: imageFile.name })
-
-  return { success: true, message: "تصویر کامیابی سے اپ لوڈ کی گئی۔" } // Image uploaded successfully.
-}
+import { createGalleryImage } from "./actions"
 
 export default function CreateGalleryPage() {
   const [state, formAction] = useActionState(createGalleryImage, null)
@@ -101,19 +85,7 @@ export default function CreateGalleryPage() {
                   className="w-full bg-gray-700 border-blue-600 text-blue-100 placeholder:text-blue-300/70 focus:border-red-400 focus:ring-red-400 text-right"
                 />
               </div>
-              <div>
-                <label htmlFor="image" className="block text-lg font-medium text-blue-200 mb-2 text-right">
-                  {"تصویر اپ لوڈ کریں"} {/* Upload Image */}
-                </label>
-                <Input
-                  id="image"
-                  name="image"
-                  type="file"
-                  accept="image/*"
-                  className="w-full bg-gray-700 border-blue-600 text-blue-100 file:text-blue-200 file:bg-blue-700 file:hover:bg-blue-800 file:border-0 file:rounded-full file:py-2 file:px-4 file:mr-4 file:cursor-pointer focus:border-red-400 focus:ring-red-400 text-right"
-                  required
-                />
-              </div>
+              {/* File uploads intentionally omitted to keep JSON-only persistence */}
               <Button
                 type="submit"
                 className="w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 px-6 rounded-full transition-colors duration-300 transform hover:scale-105 text-xl"
