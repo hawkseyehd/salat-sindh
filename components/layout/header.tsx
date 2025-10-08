@@ -26,15 +26,32 @@ const navLinks: NavLink[] = [
   { name: "ویڈیوز", href: "/videos" },
 ];
 
-export function Header({ currentPath = "/", showAuthLinks = true }: HeaderProps) {
+export function Header({
+  currentPath = "/",
+  showAuthLinks = true,
+}: HeaderProps) {
   return (
     <header className="sticky top-0 z-40 w-full bg-gray-900/80 backdrop-blur-sm shadow-lg border-b border-blue-700/30">
-      <div className="max-w-6xl mx-auto flex h-24 items-center justify-between px-4 md:px-8">
-        <Link href="/" className="flex items-center gap-2 text-4xl font-extrabold text-red-400" prefetch={false}>
-          <span className="text-5xl">بلاگ</span>
-        </Link>
-        
-        <nav className="hidden md:flex gap-10">
+      <div className="relative flex items-center justify-between h-24 px-4 md:px-8 w-full">
+        {/* Left: Logo + Mobile toggle */}
+        <div className="flex items-center gap-3 flex-shrink-0">
+          <Link
+            href="/"
+            className="flex items-center gap-2 text-4xl font-extrabold text-red-400"
+            prefetch={false}
+          >
+            <span className="text-5xl">بلاگ</span>
+          </Link>
+
+          {/* Mobile Navigation */}
+          <button className="md:hidden text-blue-200 hover:text-red-400 ml-2">
+            <MenuIcon className="h-10 w-10" />
+            <span className="sr-only">{"Toggle navigation"}</span>
+          </button>
+        </div>
+
+        {/* Center: Nav links (always truly centered) */}
+        <nav className="hidden md:flex gap-10 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
           {navLinks.map((link) => (
             <Link
               key={link.name}
@@ -46,23 +63,19 @@ export function Header({ currentPath = "/", showAuthLinks = true }: HeaderProps)
             >
               {link.name}
               <span
-                className={`absolute bottom-0 right-0 h-0.5 bg-red-400 transition-all duration-300 ${
-                  link.href === currentPath ? "w-full" : "w-0 group-hover:w-full"
+                className={`absolute bottom-0 left-0 h-0.5 bg-red-400 transition-all duration-300 ${
+                  link.href === currentPath
+                    ? "w-full"
+                    : "w-0 group-hover:w-full"
                 }`}
               ></span>
             </Link>
           ))}
         </nav>
-        
-        {/* Mobile Navigation */}
-        <button className="md:hidden text-blue-200 hover:text-red-400">
-          <MenuIcon className="h-10 w-10" />
-          <span className="sr-only">{"Toggle navigation"}</span>
-        </button>
-        
-        {/* Auth Links */}
+
+        {/* Right: Auth Links */}
         {showAuthLinks && (
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden md:flex items-center justify-end gap-4 flex-shrink-0 whitespace-nowrap">
             <Link
               href="/login"
               className="text-blue-200 hover:text-red-400 transition-colors duration-300 px-4 py-2 rounded-lg border border-blue-700/30 hover:border-red-400/50"
