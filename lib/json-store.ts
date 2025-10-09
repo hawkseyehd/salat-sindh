@@ -59,4 +59,23 @@ export async function listItems<T = unknown>(fileBaseName: string): Promise<T[]>
   return readJson<T[]>(fileBaseName, [])
 }
 
+export async function updateItem<T extends JsonRecord>(fileBaseName: string, id: string, updates: Partial<T>): Promise<void> {
+  const list = await readJson<Array<T & { id?: string }>>(fileBaseName, [])
+  const updatedList = list.map(item => 
+    item.id === id ? { ...item, ...updates } : item
+  )
+  await writeJson(fileBaseName, updatedList)
+}
+
+export async function deleteItem(fileBaseName: string, id: string): Promise<void> {
+  const list = await readJson<Array<{ id?: string }>>(fileBaseName, [])
+  const filteredList = list.filter(item => item.id !== id)
+  await writeJson(fileBaseName, filteredList)
+}
+
+export async function getItem<T extends JsonRecord>(fileBaseName: string, id: string): Promise<T | null> {
+  const list = await readJson<Array<T & { id?: string }>>(fileBaseName, [])
+  return list.find(item => item.id === id) || null
+}
+
 

@@ -9,6 +9,7 @@ export type SessionUser = {
   username: string
   email?: string
   name?: string
+  role?: string
 }
 
 export async function setSession(user: SessionUser): Promise<void> {
@@ -37,6 +38,28 @@ export async function getSession(): Promise<SessionUser | null> {
 export async function clearSession(): Promise<void> {
   const cookieStore = await cookies()
   cookieStore.delete(SESSION_COOKIE)
+}
+
+export async function isAdmin(): Promise<boolean> {
+  const session = await getSession()
+  return session?.role === 'admin'
+}
+
+export async function hasRole(role: string): Promise<boolean> {
+  const session = await getSession()
+  return session?.role === role
+}
+
+export async function hasPermission(permission: string): Promise<boolean> {
+  const session = await getSession()
+  if (!session) return false
+  
+  // Admin has all permissions
+  if (session.role === 'admin') return true
+  
+  // TODO: Implement role-based permission checking
+  // For now, only admin has special permissions
+  return false
 }
 
 

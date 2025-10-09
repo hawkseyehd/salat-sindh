@@ -5,7 +5,9 @@
     "email": "hawkseyehd@gmail.com",
     "password": "nizamani",
     "id": "1759932432155-ndip6n",
-    "createdAt": "2025-10-08T14:07:12.155Z"
+    "createdAt": "2025-10-08T14:07:12.155Z",
+    "role": "admin",
+    "status": "active"
   },
   {
     "name": "Lalo Useless",
@@ -13,6 +15,8 @@
     "email": "lalo@gmail.com",
     "password": "nizamani",
     "id": "1759933633840-ehedxb",
-    "createdAt": "2025-10-08T14:27:13.840Z"
+    "createdAt": "2025-10-08T14:27:13.840Z",
+    "role": "user",
+    "status": "active"
   }
 ]

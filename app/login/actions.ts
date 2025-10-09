@@ -19,7 +19,13 @@ export async function loginUser(prevState: any, formData: FormData) {
     return { success: false, message: "غلط اسناد۔" }
   }
 
-  await setSession({ id: user.id, username: user.username, email: user.email, name: user.name })
+  await setSession({ 
+    id: user.id, 
+    username: user.username, 
+    email: user.email, 
+    name: user.name,
+    role: user.role || 'user'
+  })
   return { success: true, message: "لاگ ان کامیاب۔" }
 }
 

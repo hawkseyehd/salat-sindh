@@ -1,0 +1,57 @@
+[
+  {
+    "id": "1760004047412-lcszu8",
+    "name": "Administrator",
+    "description": "Full access to all features",
+    "permissions": [
+      "content.create",
+      "content.edit",
+      "content.delete",
+      "content.approve",
+      "content.reject",
+      "users.view",
+      "users.edit",
+      "users.delete",
+      "users.roles",
+      "analytics.view",
+      "reports.generate",
+      "settings.general",
+      "settings.security"
+    ],
+    "createdAt": "2025-10-09T10:00:47.412Z"
+  },
+  {
+    "id": "1760004047453-xchthe",
+    "name": "Moderator",
+    "description": "Can manage content and users",
+    "permissions": [
+      "content.create",
+      "content.edit",
+      "content.delete",
+      "content.approve",
+      "content.reject",
+      "users.view",
+      "users.edit",
+      "analytics.view"
+    ],
+    "createdAt": "2025-10-09T10:00:47.453Z"
+  },
+  {
+    "id": "1760004047771-ba01hv",
+    "name": "Editor",
+    "description": "Can create and edit content",
+    "permissions": [
+      "content.create",
+      "content.edit",
+      "content.approve"
+    ],
+    "createdAt": "2025-10-09T10:00:47.771Z"
+  },
+  {
+    "id": "1760004047811-ezpivj",
+    "name": "User",
+    "description": "Basic user access",
+    "permissions": [],
+    "createdAt": "2025-10-09T10:00:47.811Z"
+  }
+]
