@@ -3,7 +3,10 @@ import { useActionState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Label } from "@/components/ui/label"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { ClientPageLayout } from "@/components/layout/page-layout-client"
 import { createVideo } from "./actions"
 
@@ -23,23 +26,166 @@ export default function CreateVideoPage() {
             <CardTitle className="text-red-400">تفصیلات درج کریں</CardTitle>
           </CardHeader>
           <CardContent>
-            <form action={formAction} className="grid grid-cols-1 md:grid-cols-2 gap-6" dir="rtl">
+            <form action={formAction} className="space-y-6" dir="rtl">
               <div>
-                <label htmlFor="title" className="block mb-2">عنوان</label>
-                <Input id="title" name="title" className="bg-gray-700 border-blue-600" required />
+                <Label htmlFor="title" className="block text-lg font-medium text-blue-200 mb-2 text-right">
+                  {"عنوان"} {/* Title */}
+                </Label>
+                <Input 
+                  id="title" 
+                  name="title" 
+                  className="w-full bg-gray-700 border-blue-600 text-blue-100 placeholder:text-blue-300/70 focus:border-red-400 focus:ring-red-400 text-right"
+                  placeholder="ویڈیو کا عنوان درج کریں"
+                  required 
+                />
               </div>
+
               <div>
-                <label htmlFor="channel" className="block mb-2">چینل</label>
-                <Input id="channel" name="channel" className="bg-gray-700 border-blue-600" />
+                <Label htmlFor="description" className="block text-lg font-medium text-blue-200 mb-2 text-right">
+                  {"تفصیل"} {/* Description */}
+                </Label>
+                <Textarea 
+                  id="description" 
+                  name="description" 
+                  className="w-full bg-gray-700 border-blue-600 text-blue-100 placeholder:text-blue-300/70 focus:border-red-400 focus:ring-red-400 text-right min-h-[100px]"
+                  placeholder="ویڈیو کی تفصیل لکھیں"
+                />
               </div>
-              <div className="md:col-span-2">
-                <label htmlFor="videoUrl" className="block mb-2">ویڈیو URL</label>
-                <Input id="videoUrl" name="videoUrl" className="bg-gray-700 border-blue-600" />
+
+              <div>
+                <Label htmlFor="videoUrl" className="block text-lg font-medium text-blue-200 mb-2 text-right">
+                  {"ویڈیو URL"} {/* Video URL */}
+                </Label>
+                <Input 
+                  id="videoUrl" 
+                  name="videoUrl" 
+                  type="url"
+                  className="w-full bg-gray-700 border-blue-600 text-blue-100 placeholder:text-blue-300/70 focus:border-red-400 focus:ring-red-400 text-right"
+                  placeholder="YouTube یا دوسرے پلیٹ فارم کا URL"
+                  required
+                />
               </div>
-              <div className="md:col-span-2 flex gap-3 items-center">
-                <Button type="submit" className="bg-blue-700 hover:bg-blue-800">محفوظ کریں</Button>
+
+              <div>
+                <Label htmlFor="thumbnail" className="block text-lg font-medium text-blue-200 mb-2 text-right">
+                  {"تھمب نیل URL"} {/* Thumbnail URL */}
+                </Label>
+                <Input 
+                  id="thumbnail" 
+                  name="thumbnail" 
+                  type="url"
+                  className="w-full bg-gray-700 border-blue-600 text-blue-100 placeholder:text-blue-300/70 focus:border-red-400 focus:ring-red-400 text-right"
+                  placeholder="تھمب نیل تصویر کا URL"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="channel" className="block text-lg font-medium text-blue-200 mb-2 text-right">
+                  {"چینل"} {/* Channel */}
+                </Label>
+                <Input 
+                  id="channel" 
+                  name="channel" 
+                  className="w-full bg-gray-700 border-blue-600 text-blue-100 placeholder:text-blue-300/70 focus:border-red-400 focus:ring-red-400 text-right"
+                  placeholder="چینل کا نام"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="author" className="block text-lg font-medium text-blue-200 mb-2 text-right">
+                  {"مصنف"} {/* Author */}
+                </Label>
+                <Input 
+                  id="author" 
+                  name="author" 
+                  className="w-full bg-gray-700 border-blue-600 text-blue-100 placeholder:text-blue-300/70 focus:border-red-400 focus:ring-red-400 text-right"
+                  placeholder="مصنف کا نام"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="category" className="block text-lg font-medium text-blue-200 mb-2 text-right">
+                  {"قسم"} {/* Category */}
+                </Label>
+                <Select name="category">
+                  <SelectTrigger className="w-full bg-gray-700 border-blue-600 text-blue-100 focus:border-red-400 focus:ring-red-400">
+                    <SelectValue placeholder="قسم منتخب کریں" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="education">تعلیم</SelectItem>
+                    <SelectItem value="entertainment">تفریح</SelectItem>
+                    <SelectItem value="news">خبریں</SelectItem>
+                    <SelectItem value="tutorial">سبق</SelectItem>
+                    <SelectItem value="documentary">دستاویز</SelectItem>
+                    <SelectItem value="music">موسیقی</SelectItem>
+                    <SelectItem value="culture">ثقافت</SelectItem>
+                    <SelectItem value="other">دیگر</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Label htmlFor="duration" className="block text-lg font-medium text-blue-200 mb-2 text-right">
+                  {"دورانیہ (منٹ)"} {/* Duration in minutes */}
+                </Label>
+                <Input 
+                  id="duration" 
+                  name="duration" 
+                  type="number"
+                  className="w-full bg-gray-700 border-blue-600 text-blue-100 placeholder:text-blue-300/70 focus:border-red-400 focus:ring-red-400 text-right"
+                  placeholder="ویڈیو کا دورانیہ منٹ میں"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="tags" className="block text-lg font-medium text-blue-200 mb-2 text-right">
+                  {"ٹیگز"} {/* Tags */}
+                </Label>
+                <Input 
+                  id="tags" 
+                  name="tags" 
+                  className="w-full bg-gray-700 border-blue-600 text-blue-100 placeholder:text-blue-300/70 focus:border-red-400 focus:ring-red-400 text-right"
+                  placeholder="ٹیگز کو کاما سے الگ کریں"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="status" className="block text-lg font-medium text-blue-200 mb-2 text-right">
+                  {"حالت"} {/* Status */}
+                </Label>
+                <Select name="status" defaultValue="draft">
+                  <SelectTrigger className="w-full bg-gray-700 border-blue-600 text-blue-100 focus:border-red-400 focus:ring-red-400">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="draft">ڈرافٹ</SelectItem>
+                    <SelectItem value="published">شائع شدہ</SelectItem>
+                    <SelectItem value="archived">محفوظ شدہ</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Label htmlFor="featured" className="block text-lg font-medium text-blue-200 mb-2 text-right">
+                  {"خصوصی ویڈیو"} {/* Featured Video */}
+                </Label>
+                <Select name="featured" defaultValue="false">
+                  <SelectTrigger className="w-full bg-gray-700 border-blue-600 text-blue-100 focus:border-red-400 focus:ring-red-400">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="false">نہیں</SelectItem>
+                    <SelectItem value="true">ہاں</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="flex gap-3 items-center">
+                <Button type="submit" className="bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 px-6 rounded-full transition-colors duration-300 transform hover:scale-105 text-xl">
+                  {state?.success === true ? "کامیاب!" : "ویڈیو بنائیں"}
+                </Button>
                 {state && (
-                  <span className={`${state.success ? "text-green-400" : "text-red-400"}`}>{state.message}</span>
+                  <span className={`text-lg ${state.success ? "text-green-400" : "text-red-400"}`}>{state.message}</span>
                 )}
               </div>
             </form>

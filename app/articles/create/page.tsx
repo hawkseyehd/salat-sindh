@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Label } from "@/components/ui/label"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { createArticle } from "./actions"
 import { ClientPageLayout } from "@/components/layout/page-layout-client"
 
@@ -21,9 +23,9 @@ export default function CreateArticlePage() {
           <CardContent className="p-6">
             <form action={formAction} className="space-y-6">
               <div>
-                <label htmlFor="title" className="block text-lg font-medium text-blue-200 mb-2 text-right">
+                <Label htmlFor="title" className="block text-lg font-medium text-blue-200 mb-2 text-right">
                   {"عنوان"} {/* Title */}
-                </label>
+                </Label>
                 <Input
                   id="title"
                   name="title"
@@ -33,10 +35,11 @@ export default function CreateArticlePage() {
                   required
                 />
               </div>
+
               <div>
-                <label htmlFor="excerpt" className="block text-lg font-medium text-blue-200 mb-2 text-right">
+                <Label htmlFor="excerpt" className="block text-lg font-medium text-blue-200 mb-2 text-right">
                   {"مختصر خلاصہ"} {/* Excerpt */}
-                </label>
+                </Label>
                 <Textarea
                   id="excerpt"
                   name="excerpt"
@@ -44,10 +47,11 @@ export default function CreateArticlePage() {
                   className="w-full bg-gray-700 border-blue-600 text-blue-100 placeholder:text-blue-300/70 focus:border-red-400 focus:ring-red-400 text-right min-h-[100px]"
                 />
               </div>
+
               <div>
-                <label htmlFor="content" className="block text-lg font-medium text-blue-200 mb-2 text-right">
+                <Label htmlFor="content" className="block text-lg font-medium text-blue-200 mb-2 text-right">
                   {"مواد"} {/* Content */}
-                </label>
+                </Label>
                 <Textarea
                   id="content"
                   name="content"
@@ -55,6 +59,97 @@ export default function CreateArticlePage() {
                   className="w-full bg-gray-700 border-blue-600 text-blue-100 placeholder:text-blue-300/70 focus:border-red-400 focus:ring-red-400 text-right min-h-[200px]"
                   required
                 />
+              </div>
+
+              <div>
+                <Label htmlFor="author" className="block text-lg font-medium text-blue-200 mb-2 text-right">
+                  {"مصنف"} {/* Author */}
+                </Label>
+                <Input
+                  id="author"
+                  name="author"
+                  type="text"
+                  placeholder="مصنف کا نام درج کریں" // Enter author name
+                  className="w-full bg-gray-700 border-blue-600 text-blue-100 placeholder:text-blue-300/70 focus:border-red-400 focus:ring-red-400 text-right"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="image" className="block text-lg font-medium text-blue-200 mb-2 text-right">
+                  {"تصویر URL"} {/* Image URL */}
+                </Label>
+                <Input
+                  id="image"
+                  name="image"
+                  type="url"
+                  placeholder="تصویر کا URL درج کریں" // Enter image URL
+                  className="w-full bg-gray-700 border-blue-600 text-blue-100 placeholder:text-blue-300/70 focus:border-red-400 focus:ring-red-400 text-right"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="category" className="block text-lg font-medium text-blue-200 mb-2 text-right">
+                  {"قسم"} {/* Category */}
+                </Label>
+                <Select name="category">
+                  <SelectTrigger className="w-full bg-gray-700 border-blue-600 text-blue-100 focus:border-red-400 focus:ring-red-400">
+                    <SelectValue placeholder="قسم منتخب کریں" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="research">تحقیق</SelectItem>
+                    <SelectItem value="analysis">تجزیہ</SelectItem>
+                    <SelectItem value="opinion">رائے</SelectItem>
+                    <SelectItem value="news">خبریں</SelectItem>
+                    <SelectItem value="tutorial">سبق</SelectItem>
+                    <SelectItem value="review">جائزہ</SelectItem>
+                    <SelectItem value="feature">خصوصی</SelectItem>
+                    <SelectItem value="other">دیگر</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Label htmlFor="tags" className="block text-lg font-medium text-blue-200 mb-2 text-right">
+                  {"ٹیگز"} {/* Tags */}
+                </Label>
+                <Input
+                  id="tags"
+                  name="tags"
+                  type="text"
+                  placeholder="ٹیگز کو کاما سے الگ کریں" // Separate tags with commas
+                  className="w-full bg-gray-700 border-blue-600 text-blue-100 placeholder:text-blue-300/70 focus:border-red-400 focus:ring-red-400 text-right"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="status" className="block text-lg font-medium text-blue-200 mb-2 text-right">
+                  {"حالت"} {/* Status */}
+                </Label>
+                <Select name="status" defaultValue="draft">
+                  <SelectTrigger className="w-full bg-gray-700 border-blue-600 text-blue-100 focus:border-red-400 focus:ring-red-400">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="draft">ڈرافٹ</SelectItem>
+                    <SelectItem value="published">شائع شدہ</SelectItem>
+                    <SelectItem value="archived">محفوظ شدہ</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Label htmlFor="featured" className="block text-lg font-medium text-blue-200 mb-2 text-right">
+                  {"خصوصی مضمون"} {/* Featured Article */}
+                </Label>
+                <Select name="featured" defaultValue="false">
+                  <SelectTrigger className="w-full bg-gray-700 border-blue-600 text-blue-100 focus:border-red-400 focus:ring-red-400">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="false">نہیں</SelectItem>
+                    <SelectItem value="true">ہاں</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
               <Button
                 type="submit"
