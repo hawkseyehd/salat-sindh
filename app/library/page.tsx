@@ -39,13 +39,20 @@ export default async function LibraryPage() {
                 <CardTitle className="text-2xl font-semibold text-red-400 text-right">{resource.title}</CardTitle>
               </CardHeader>
               <CardContent className="p-6 pt-4 flex flex-col flex-grow justify-between text-right">
-                <p className="text-blue-200.mb-6 flex-grow leading-relaxed">{resource.description}</p>
-                <Link href={resource.downloadUrl} download prefetch={false}>
-                  <Button className="w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 px-6 rounded-full transition-colors duration-300 flex items-center justify-center gap-2 transform hover:scale-105">
-                    <DownloadIcon className="h-6 w-6" />
-                    {"ڈاؤن لوڈ کریں"}
-                  </Button>
-                </Link>
+                <p className="text-blue-200 mb-6 flex-grow leading-relaxed">{resource.description}</p>
+                <div className="flex flex-col gap-3">
+                  <Link href={`/library/${resource.id}`} prefetch={false}>
+                    <Button className="w-full bg-red-700 hover:bg-red-800 text-white font-semibold py-3 px-6 rounded-full transition-colors duration-300 transform hover:scale-105">
+                      {"مزید پڑھیں"}
+                    </Button>
+                  </Link>
+                  <Link href={resource.downloadUrl} download prefetch={false}>
+                    <Button className="w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 px-6 rounded-full transition-colors duration-300 flex items-center justify-center gap-2 transform hover:scale-105">
+                      <DownloadIcon className="h-6 w-6" />
+                      {"ڈاؤن لوڈ کریں"}
+                    </Button>
+                  </Link>
+                </div>
               </CardContent>
             </Card>
           ))}

@@ -45,12 +45,19 @@ export default async function EducationPage() {
                 <p className="text-blue-200 mb-6 flex-grow leading-relaxed">
                   {"یہ مواد آپ کی تعلیم میں مددگار ثابت ہوگا۔"}
                 </p>
-                <Link href={resource.downloadUrl} download prefetch={false}>
-                  <Button className="w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 px-6 rounded-full transition-colors duration-300 flex items-center justify-center gap-2 transform hover:scale-105">
-                    <GraduationCapIcon className="h-6 w-6" />
-                    {"ڈاؤن لوڈ کریں"}
-                  </Button>
-                </Link>
+                <div className="flex flex-col gap-3">
+                  <Link href={`/education/${resource.id}`} prefetch={false}>
+                    <Button className="w-full bg-red-700 hover:bg-red-800 text-white font-semibold py-3 px-6 rounded-full transition-colors duration-300 transform hover:scale-105">
+                      {"مزید پڑھیں"}
+                    </Button>
+                  </Link>
+                  <Link href={resource.downloadUrl} download prefetch={false}>
+                    <Button className="w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 px-6 rounded-full transition-colors duration-300 flex items-center justify-center gap-2 transform hover:scale-105">
+                      <GraduationCapIcon className="h-6 w-6" />
+                      {"ڈاؤن لوڈ کریں"}
+                    </Button>
+                  </Link>
+                </div>
               </CardContent>
             </Card>
           ))}

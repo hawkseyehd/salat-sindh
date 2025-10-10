@@ -34,28 +34,27 @@ export default async function GalleryPage() {
         )}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
           {galleryImages.map((image: any) => (
-            <Card
-              key={image.id}
-              className="bg-gray-800 rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-blue-700/30 flex flex-col"
-            >
-              <CardContent className="p-0">
-                <Image
-                  src={image.imageUrl || "/placeholder.svg"}
-                  alt={image.title}
-                  width={400}
-                  height={300}
-                  className="w-full h-64 object-cover rounded-t-2xl"
-                />
-                <div className="p-6 text-right">
-                  <CardTitle className="text-2xl font-semibold text-red-400 mb-2">{image.title}</CardTitle>
-                  {image.category && (
-                    <p className="text-blue-300 text-base">
-                      {"زمرہ:"} {image.category}
-                    </p>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
+            <Link key={image.id} href={`/gallery/${image.id}`} prefetch={false}>
+              <Card className="bg-gray-800 rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-blue-700/30 flex flex-col cursor-pointer">
+                <CardContent className="p-0">
+                  <Image
+                    src={image.imageUrl || "/placeholder.svg"}
+                    alt={image.title}
+                    width={400}
+                    height={300}
+                    className="w-full h-64 object-cover rounded-t-2xl"
+                  />
+                  <div className="p-6 text-right">
+                    <CardTitle className="text-2xl font-semibold text-red-400 mb-2">{image.title}</CardTitle>
+                    {image.category && (
+                      <p className="text-blue-300 text-base">
+                        {"زمرہ:"} {image.category}
+                      </p>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
           ))}
         </div>
       </div>

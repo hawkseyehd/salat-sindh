@@ -52,12 +52,19 @@ export default async function StorePage() {
                   <p className="text-blue-300 text-lg font-medium">
                     {"فون نمبر:"} {product.phoneNumber}
                   </p>
-                  <Link href={`tel:${product.phoneNumber}`} prefetch={false}>
-                    <Button className="w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 px-6 rounded-full transition-colors duration-300 flex items-center justify-center gap-2 transform hover:scale-105">
-                      <PhoneIcon className="h-6 w-6" />
-                      {"فون کے ذریعے آرڈر کریں"}
-                    </Button>
-                  </Link>
+                  <div className="flex flex-col gap-3">
+                    <Link href={`/store/${product.id}`} prefetch={false}>
+                      <Button className="w-full bg-red-700 hover:bg-red-800 text-white font-semibold py-3 px-6 rounded-full transition-colors duration-300 transform hover:scale-105">
+                        {"مزید پڑھیں"}
+                      </Button>
+                    </Link>
+                    <Link href={`tel:${product.phoneNumber}`} prefetch={false}>
+                      <Button className="w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 px-6 rounded-full transition-colors duration-300 flex items-center justify-center gap-2 transform hover:scale-105">
+                        <PhoneIcon className="h-6 w-6" />
+                        {"فون کے ذریعے آرڈر کریں"}
+                      </Button>
+                    </Link>
+                  </div>
                 </div>
               </CardContent>
             </Card>

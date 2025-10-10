@@ -32,7 +32,7 @@ export default async function BooksPage() {
           {books.map((book: any) => (
             <Card
               key={book.id}
-              className="bg-gray-800 rounded-2xl shadow-xl hover:shadow-2xl transition-all.duration-300 transform hover:-translate-y-1 border border-blue-700/30 flex flex-col"
+              className="bg-gray-800 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-blue-700/30 flex flex-col"
             >
               <CardHeader className="pb-0">
                 <CardTitle className="text-2xl font-semibold text-red-400 text-right">{book.title}</CardTitle>
@@ -45,12 +45,19 @@ export default async function BooksPage() {
                   {book.genre}
                   {book.description}
                 </p>
-                <Link href={book.cover} download prefetch={false}>
-                  <Button className="w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 px-6 rounded-full transition-colors duration-300 flex items-center justify-center gap-2 transform hover:scale-105">
-                    <BookIcon className="h-6 w-6" />
-                    {"کتاب ڈاؤن لوڈ کریں"}
-                  </Button>
-                </Link>
+                <div className="flex flex-col gap-3">
+                  <Link href={`/books/${book.id}`} prefetch={false}>
+                    <Button className="w-full bg-red-700 hover:bg-red-800 text-white font-semibold py-3 px-6 rounded-full transition-colors duration-300 transform hover:scale-105">
+                      {"مزید پڑھیں"}
+                    </Button>
+                  </Link>
+                  <Link href={book.cover} download prefetch={false}>
+                    <Button className="w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 px-6 rounded-full transition-colors duration-300 flex items-center justify-center gap-2 transform hover:scale-105">
+                      <BookIcon className="h-6 w-6" />
+                      {"کتاب ڈاؤن لوڈ کریں"}
+                    </Button>
+                  </Link>
+                </div>
               </CardContent>
             </Card>
           ))}
