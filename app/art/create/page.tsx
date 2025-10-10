@@ -44,7 +44,19 @@ export default function CreateArtPage() {
                   className="w-full bg-gray-700 border-blue-600 text-blue-100 placeholder:text-blue-300/70 focus:border-red-400 focus:ring-red-400 text-right"
                 />
               </div>
-              {/* File uploads intentionally omitted to keep JSON-only persistence */}
+              <div>
+                <label htmlFor="image" className="block text-lg font-medium text-blue-200 mb-2 text-right">
+                  {"تصویر"} {/* Image */}
+                </label>
+                <Input
+                  id="image"
+                  name="image"
+                  type="file"
+                  accept="image/*"
+                  className="w-full bg-gray-700 border-blue-600 text-blue-100 placeholder:text-blue-300/70 focus:border-red-400 focus:ring-red-400 text-right file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                  required
+                />
+              </div>
               <Button
                 type="submit"
                 className="w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 px-6 rounded-full transition-colors duration-300 transform hover:scale-105 text-xl"

@@ -1,14 +1,13 @@
 "use server"
 
 import { appendItem } from "@/lib/json-store"
+import { uploadImagesFromFormData } from "@/lib/file-upload"
 
 export async function createBlogPost(prevState: any, formData: FormData) {
   const title = (formData.get("title") as string)?.trim()
   const excerpt = (formData.get("excerpt") as string)?.trim()
   const content = (formData.get("content") as string)?.trim()
   const author = (formData.get("author") as string)?.trim()
-  const image = (formData.get("image") as string)?.trim()
-  const thumbnail = (formData.get("thumbnail") as string)?.trim()
   const category = (formData.get("category") as string)?.trim()
   const tags = (formData.get("tags") as string)?.trim()
   const status = (formData.get("status") as string)?.trim() || "draft"
@@ -17,6 +16,11 @@ export async function createBlogPost(prevState: any, formData: FormData) {
   if (!title || !content) {
     return { success: false, message: "عنوان اور مواد ضروری ہیں۔" }
   }
+
+  // Upload images if provided
+  const uploadedImages = await uploadImagesFromFormData(formData, ['image', 'thumbnail'])
+  const image = uploadedImages.image || ''
+  const thumbnail = uploadedImages.thumbnail || ''
 
   // Process tags
   const tagsArray = tags ? tags.split(',').map(tag => tag.trim()).filter(tag => tag) : []

@@ -38,8 +38,14 @@ export default function CreateBookPage() {
                 <Textarea id="description" name="description" className="bg-gray-700 border-blue-600" rows={4} />
               </div>
               <div className="md:col-span-2">
-                <label htmlFor="cover" className="block mb-2">کور URL</label>
-                <Input id="cover" name="cover" className="bg-gray-700 border-blue-600" />
+                <label htmlFor="cover" className="block mb-2">کور</label>
+                <Input 
+                  id="cover" 
+                  name="cover" 
+                  type="file"
+                  accept="image/*"
+                  className="bg-gray-700 border-blue-600 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" 
+                />
               </div>
               <div className="md:col-span-2 flex gap-3 items-center">
                 <Button type="submit" className="bg-blue-700 hover:bg-blue-800">محفوظ کریں</Button>

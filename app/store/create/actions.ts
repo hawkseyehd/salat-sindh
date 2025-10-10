@@ -1,17 +1,21 @@
 "use server"
 
 import { appendItem } from "@/lib/json-store"
+import { uploadImagesFromFormData } from "@/lib/file-upload"
 
 export async function createStoreItem(prevState: any, formData: FormData) {
   const name = (formData.get("name") as string)?.trim()
   const price = (formData.get("price") as string)?.trim()
   const description = (formData.get("description") as string)?.trim()
   const phoneNumber = (formData.get("phoneNumber") as string)?.trim()
-  const image = (formData.get("image") as string)?.trim()
 
   if (!name || !price || !phoneNumber) {
     return { success: false, message: "نام، قیمت اور فون نمبر لازمی ہیں۔" }
   }
+
+  // Upload image if provided
+  const uploadedImages = await uploadImagesFromFormData(formData, ['image'])
+  const image = uploadedImages.image || ''
 
   await appendItem("store", { name, price, description, phoneNumber, image })
 

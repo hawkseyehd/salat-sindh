@@ -42,10 +42,10 @@ export default async function BooksPage() {
               </CardHeader>
               <CardContent className="p-6 pt-4 flex flex-col flex-grow justify-between text-right">
                 <p className="text-blue-200 mb-6 flex-grow leading-relaxed">
-                  {"یہ کتاب "}
-                  {book.genre} {"کے موضوع پر ایک بہترین اضافہ ہے۔"}
+                  {book.genre}
+                  {book.description}
                 </p>
-                <Link href={book.downloadUrl} download prefetch={false}>
+                <Link href={book.cover} download prefetch={false}>
                   <Button className="w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 px-6 rounded-full transition-colors duration-300 flex items-center justify-center gap-2 transform hover:scale-105">
                     <BookIcon className="h-6 w-6" />
                     {"کتاب ڈاؤن لوڈ کریں"}

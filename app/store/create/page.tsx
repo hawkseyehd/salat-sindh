@@ -42,8 +42,14 @@ export default function CreateStoreItemPage() {
                 <Input id="phoneNumber" name="phoneNumber" className="bg-gray-700 border-blue-600" required />
               </div>
               <div className="md:col-span-1">
-                <label htmlFor="image" className="block mb-2">تصویر URL</label>
-                <Input id="image" name="image" className="bg-gray-700 border-blue-600" />
+                <label htmlFor="image" className="block mb-2">تصویر</label>
+                <Input 
+                  id="image" 
+                  name="image" 
+                  type="file"
+                  accept="image/*"
+                  className="bg-gray-700 border-blue-600 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" 
+                />
               </div>
               <div className="md:col-span-2 flex gap-3 items-center">
                 <Button type="submit" className="bg-blue-700 hover:bg-blue-800">محفوظ کریں</Button>
