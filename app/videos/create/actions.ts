@@ -2,8 +2,15 @@
 
 import { appendItem } from "@/lib/json-store"
 import { uploadImagesFromFormData } from "@/lib/file-upload"
+import { canPost } from "@/lib/auth"
 
 export async function createVideo(prevState: any, formData: FormData) {
+  // Check if user can post
+  const canUserPost = await canPost()
+  if (!canUserPost) {
+    return { success: false, message: "آپ کو مواد پوسٹ کرنے کی اجازت نہیں۔ منتظم سے رابطہ کریں۔" }
+  }
+
   const title = (formData.get("title") as string)?.trim()
   const description = (formData.get("description") as string)?.trim()
   const videoUrl = (formData.get("videoUrl") as string)?.trim()

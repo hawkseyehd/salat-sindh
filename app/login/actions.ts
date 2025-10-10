@@ -19,12 +19,19 @@ export async function loginUser(prevState: any, formData: FormData) {
     return { success: false, message: "غلط اسناد۔" }
   }
 
+  // Check if user is verified
+  if (!user.verified || user.status !== 'active') {
+    return { success: false, message: "اکاؤنٹ کی تصدیق نہیں ہوئی۔ منتظم سے رابطہ کریں۔" }
+  }
+
   await setSession({ 
     id: user.id, 
     username: user.username, 
     email: user.email, 
     name: user.name,
-    role: user.role || 'user'
+    role: user.role || 'user',
+    verified: user.verified,
+    status: user.status
   })
   return { success: true, message: "لاگ ان کامیاب۔" }
 }

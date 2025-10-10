@@ -53,5 +53,26 @@
     "description": "Basic user access",
     "permissions": [],
     "createdAt": "2025-10-09T10:00:47.811Z"
+  },
+  {
+    "id": "1760004047900-team123",
+    "name": "Team",
+    "description": "Team member with admin permissions",
+    "permissions": [
+      "content.create",
+      "content.edit",
+      "content.delete",
+      "content.approve",
+      "content.reject",
+      "users.view",
+      "users.edit",
+      "users.delete",
+      "users.roles",
+      "analytics.view",
+      "reports.generate",
+      "settings.general",
+      "settings.security"
+    ],
+    "createdAt": "2025-10-09T10:00:47.900Z"
   }
 ]

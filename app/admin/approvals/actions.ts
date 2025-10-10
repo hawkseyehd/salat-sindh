@@ -35,3 +35,31 @@ export async function rejectContent(id: string, type: string, reason: string) {
     rejectedBy: session.id
   })
 }
+
+export async function approveUser(userId: string) {
+  const session = await getSession()
+  if (!session || (session.role !== 'admin' && session.role !== 'team')) {
+    redirect('/login')
+  }
+
+  await updateItem('users', userId, {
+    verified: true,
+    status: 'active',
+    verifiedAt: new Date().toISOString(),
+    verifiedBy: session.id
+  })
+}
+
+export async function rejectUser(userId: string) {
+  const session = await getSession()
+  if (!session || (session.role !== 'admin' && session.role !== 'team')) {
+    redirect('/login')
+  }
+
+  await updateItem('users', userId, {
+    verified: false,
+    status: 'rejected',
+    rejectedAt: new Date().toISOString(),
+    rejectedBy: session.id
+  })
+}

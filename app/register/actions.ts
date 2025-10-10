@@ -23,9 +23,19 @@ export async function registerUser(prevState: any, formData: FormData) {
     return { success: false, message: "صارف نام یا ای میل پہلے سے موجود ہے۔" }
   }
 
-  const saved = await appendItem("users", { name, username, email, password })
-  await setSession({ id: saved.id, username: username, email, name })
-  return { success: true, message: "اکاؤنٹ بن گیا۔" }
+  const saved = await appendItem("users", { 
+    name, 
+    username, 
+    email, 
+    password, 
+    role: 'user',
+    verified: false,
+    status: 'pending',
+    createdAt: new Date().toISOString()
+  })
+  
+  // Don't set session for unverified users
+  return { success: true, message: "اکاؤنٹ بن گیا۔ انتظار کریں، منتظم کی طرف سے تصدیق ہوگی۔" }
 }
 
 

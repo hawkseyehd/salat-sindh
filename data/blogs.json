@@ -5,8 +5,30 @@
     "content": "test",
     "id": "1759932875427-a0tot2",
     "createdAt": "2025-10-08T14:14:35.427Z",
-    "approved": false,
-    "approvedAt": "2025-10-10T06:25:18.669Z",
-    "approvedBy": "1759932432155-ndip6n"
+    "approved": true,
+    "approvedAt": "2025-10-10T08:23:16.602Z",
+    "approvedBy": "1760083912954-zh0j4z"
+  },
+  {
+    "title": "new blog",
+    "excerpt": "new blog summary",
+    "content": "new blog content",
+    "author": "MS",
+    "image": "",
+    "thumbnail": "",
+    "category": "technology",
+    "tags": [
+      "tag4"
+    ],
+    "status": "draft",
+    "featured": true,
+    "approved": true,
+    "views": 0,
+    "likes": 0,
+    "publishedAt": null,
+    "id": "1760084009936-8j1prj",
+    "createdAt": "2025-10-10T08:13:29.936Z",
+    "approvedAt": "2025-10-10T08:23:06.155Z",
+    "approvedBy": "1760083912954-zh0j4z"
   }
 ]

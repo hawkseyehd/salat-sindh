@@ -1,7 +1,6 @@
-"use client";
-
 import Link from "next/link";
 import { MenuIcon } from "@/components/menu-icon";
+import { getSession } from "@/lib/auth";
 
 interface NavLink {
   name: string;
@@ -13,7 +12,12 @@ interface HeaderProps {
   showAuthLinks?: boolean;
 }
 
-const navLinks: NavLink[] = [
+const publicNavLinks: NavLink[] = [
+  { name: "بلاگ", href: "/blogs" },
+  { name: "مضامین", href: "/articles" },
+];
+
+const allNavLinks: NavLink[] = [
   { name: "بلاگ", href: "/blogs" },
   { name: "مضامین", href: "/articles" },
   { name: "گیلری", href: "/gallery" },
@@ -26,10 +30,13 @@ const navLinks: NavLink[] = [
   { name: "ویڈیوز", href: "/videos" },
 ];
 
-export function Header({
+export async function Header({
   currentPath = "/",
   showAuthLinks = true,
 }: HeaderProps) {
+  const session = await getSession()
+  const navLinks = session ? allNavLinks : publicNavLinks
+  
   return (
     <header className="sticky top-0 z-40 w-full bg-gray-900/80 backdrop-blur-sm shadow-lg border-b border-blue-700/30">
       <div className="relative flex items-center justify-between h-24 px-4 md:px-8 w-full">
@@ -76,20 +83,35 @@ export function Header({
         {/* Right: Auth Links */}
         {showAuthLinks && (
           <div className="hidden md:flex items-center justify-end gap-4 flex-shrink-0 whitespace-nowrap">
-            <Link
-              href="/login"
-              className="text-blue-200 hover:text-red-400 transition-colors duration-300 px-4 py-2 rounded-lg border border-blue-700/30 hover:border-red-400/50"
-              prefetch={false}
-            >
-              لاگ ان
-            </Link>
-            <Link
-              href="/register"
-              className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors duration-300"
-              prefetch={false}
-            >
-              رجسٹر
-            </Link>
+            {session ? (
+              <div className="flex items-center gap-4">
+                <span className="text-blue-200">خوش آمدید، {session.name}</span>
+                <Link
+                  href="/logout"
+                  className="text-blue-200 hover:text-red-400 transition-colors duration-300 px-4 py-2 rounded-lg border border-blue-700/30 hover:border-red-400/50"
+                  prefetch={false}
+                >
+                  لاگ آؤٹ
+                </Link>
+              </div>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  className="text-blue-200 hover:text-red-400 transition-colors duration-300 px-4 py-2 rounded-lg border border-blue-700/30 hover:border-red-400/50"
+                  prefetch={false}
+                >
+                  لاگ ان
+                </Link>
+                <Link
+                  href="/register"
+                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors duration-300"
+                  prefetch={false}
+                >
+                  رجسٹر
+                </Link>
+              </>
+            )}
           </div>
         )}
       </div>

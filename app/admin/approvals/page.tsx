@@ -22,12 +22,12 @@ import {
   Image
 } from 'lucide-react'
 import { listItems } from '@/lib/json-store'
-import { approveContent, rejectContent } from './actions'
+import { approveContent, rejectContent, approveUser, rejectUser } from './actions'
 import { ApprovalActions } from '@/components/admin/approval-actions'
 
 export default async function AdminApprovalsPage() {
-  // Fetch all content types
-  const [blogs, articles, videos, podcasts, books, gallery, education, library, store] = await Promise.all([
+  // Fetch all content types and users
+  const [blogs, articles, videos, podcasts, books, gallery, education, library, store, users] = await Promise.all([
     listItems('blogs'),
     listItems('articles'),
     listItems('videos'),
@@ -36,9 +36,13 @@ export default async function AdminApprovalsPage() {
     listItems('gallery'),
     listItems('education'),
     listItems('library'),
-    listItems('store')
+    listItems('store'),
+    listItems('users')
   ])
 
+  // Get pending users
+  const pendingUsers = users.filter((user: any) => !user.verified && user.status === 'pending')
+  
   // Combine all pending content
   const pendingContent = [
     ...blogs.filter((item: any) => !item.approved && !item.rejected).map((item: any) => ({ ...item, type: 'blog', typeLabel: 'Blog Post' })),
@@ -80,10 +84,18 @@ export default async function AdminApprovalsPage() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Pending Approval</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-600">Pending Users</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-blue-600">{pendingUsers.length}</div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-gray-600">Pending Content</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-yellow-600">{pendingContent.length}</div>
@@ -117,6 +129,76 @@ export default async function AdminApprovalsPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Pending Users */}
+      {pendingUsers.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center">
+              <Clock className="h-5 w-5 mr-2 text-blue-600" />
+              Pending User Approvals
+            </CardTitle>
+            <CardDescription>
+              Users waiting for verification
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>User</TableHead>
+                  <TableHead>Email</TableHead>
+                  <TableHead>Username</TableHead>
+                  <TableHead>Registered</TableHead>
+                  <TableHead>Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {pendingUsers.map((user: any) => (
+                  <TableRow key={user.id}>
+                    <TableCell>
+                      <div>
+                        <div className="font-medium">{user.name}</div>
+                      </div>
+                    </TableCell>
+                    <TableCell>{user.email}</TableCell>
+                    <TableCell>{user.username}</TableCell>
+                    <TableCell>
+                      <div className="text-sm text-gray-500">
+                        {new Date(user.createdAt).toLocaleDateString()}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center space-x-2">
+                        <form action={approveUser.bind(null, user.id)}>
+                          <Button 
+                            size="sm" 
+                            variant="outline"
+                            type="submit"
+                          >
+                            <CheckCircle className="h-4 w-4 mr-1" />
+                            Approve
+                          </Button>
+                        </form>
+                        <form action={rejectUser.bind(null, user.id)}>
+                          <Button 
+                            size="sm" 
+                            variant="destructive"
+                            type="submit"
+                          >
+                            <XCircle className="h-4 w-4 mr-1" />
+                            Reject
+                          </Button>
+                        </form>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Pending Content */}
       <Card>

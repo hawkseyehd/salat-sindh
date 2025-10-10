@@ -16,7 +16,12 @@ interface AuthHeaderClientProps {
   displayName?: string | null;
 }
 
-const navLinks: NavLink[] = [
+const publicNavLinks: NavLink[] = [
+  { name: "بلاگ", href: "/blogs" },
+  { name: "مضامین", href: "/articles" },
+];
+
+const allNavLinks: NavLink[] = [
   { name: "بلاگ", href: "/blogs" },
   { name: "مضامین", href: "/articles" },
   { name: "گیلری", href: "/gallery" },
@@ -35,6 +40,8 @@ export function AuthHeaderClient({
   isLoggedIn,
   displayName,
 }: AuthHeaderClientProps) {
+  const navLinks = isLoggedIn ? allNavLinks : publicNavLinks;
+  
   return (
     <header className="sticky top-0 z-40 w-full bg-gray-900/80 backdrop-blur-sm shadow-lg border-b border-blue-700/30">
       <div className="relative flex items-center justify-between h-24 px-4 md:px-8 w-full">

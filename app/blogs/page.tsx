@@ -43,24 +43,26 @@ export default async function BlogPage({ searchParams }: { searchParams: { page?
           </div>
         )}
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
-          {currentPosts.map((post) => (
-            <Card
-              key={post.id}
-              className="bg-gray-800 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-blue-700/30 flex flex-col"
-            >
-              <CardHeader className="pb-4">
-                <CardTitle className="text-3xl font-bold text-red-400 text-right">{post.title}</CardTitle>
-                <CardDescription className="text-blue-300 text-base text-right">{post.date}</CardDescription>
-              </CardHeader>
-              <CardContent className="p-6 pt-0 flex flex-col flex-grow justify-between text-right">
-                <p className="text-blue-200 mb-6 flex-grow leading-relaxed">{post.excerpt}</p>
-                <Link href={`/blogs/${post.id}`} prefetch={false}>
-                  <Button className="w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 px-6 rounded-full transition-colors duration-300 transform hover:scale-105">
-                    {"مزید پڑھیں"}
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
+          {currentPosts
+            .filter((post) => post.approved)
+            .map((post) => (
+              <Card
+                key={post.id}
+                className="bg-gray-800 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-blue-700/30 flex flex-col"
+              >
+                <CardHeader className="pb-4">
+                  <CardTitle className="text-3xl font-bold text-red-400 text-right">{post.title}</CardTitle>
+                  <CardDescription className="text-blue-300 text-base text-right">{post.date}</CardDescription>
+                </CardHeader>
+                <CardContent className="p-6 pt-0 flex flex-col flex-grow justify-between text-right">
+                  <p className="text-blue-200 mb-6 flex-grow leading-relaxed">{post.excerpt}</p>
+                  <Link href={`/blogs/${post.id}`} prefetch={false}>
+                    <Button className="w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 px-6 rounded-full transition-colors duration-300 transform hover:scale-105">
+                      {"مزید پڑھیں"}
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
           ))}
         </div>
 
