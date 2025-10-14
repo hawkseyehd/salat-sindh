@@ -8,11 +8,30 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { createBlogPost } from "./actions"
 import { ClientPageLayout } from "@/components/layout/page-layout-client"
+import { useSession } from "@/hooks/use-session"
 
 export default function CreateBlogPage() {
   const [state, formAction] = useActionState(createBlogPost, null)
+  const { session, loading } = useSession()
+  
+  if (loading) {
+    return (
+      <ClientPageLayout currentPath="/blogs">
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="text-blue-200">Loading...</div>
+        </div>
+      </ClientPageLayout>
+    )
+  }
+
+  const displayName = session?.name?.trim()?.split(" ")?.[0] || session?.username || null
+
   return (
-    <ClientPageLayout currentPath="/blogs">
+    <ClientPageLayout 
+      currentPath="/blogs"
+      isLoggedIn={!!session}
+      displayName={displayName}
+    >
       <div className="py-16 md:py-24 flex items-center justify-center">
         <Card className="w-full max-w-3xl mx-auto bg-gray-800 rounded-2xl shadow-xl border border-blue-700/30">
           <CardHeader className="pb-6 text-center">
@@ -62,19 +81,6 @@ export default function CreateBlogPage() {
               </div>
 
               <div>
-                <Label htmlFor="author" className="block text-lg font-medium text-blue-200 mb-2 text-right">
-                  {"مصنف"} {/* Author */}
-                </Label>
-                <Input
-                  id="author"
-                  name="author"
-                  type="text"
-                  placeholder="مصنف کا نام درج کریں" // Enter author name
-                  className="w-full bg-gray-700 border-blue-600 text-blue-100 placeholder:text-blue-300/70 focus:border-red-400 focus:ring-red-400 text-right"
-                />
-              </div>
-
-              <div>
                 <Label htmlFor="image" className="block text-lg font-medium text-blue-200 mb-2 text-right">
                   {"تصویر"} {/* Image */}
                 </Label>
@@ -83,7 +89,7 @@ export default function CreateBlogPage() {
                   name="image"
                   type="file"
                   accept="image/*"
-                  className="w-full bg-gray-700 border-blue-600 text-blue-100 placeholder:text-blue-300/70 focus:border-red-400 focus:ring-red-400 text-right file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                  className="w-full h-auto bg-transparent border-0 text-blue-100 placeholder:text-blue-300/70 focus:ring-0 text-right file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 file:cursor-pointer"
                 />
               </div>
 
@@ -96,7 +102,7 @@ export default function CreateBlogPage() {
                   name="thumbnail"
                   type="file"
                   accept="image/*"
-                  className="w-full bg-gray-700 border-blue-600 text-blue-100 placeholder:text-blue-300/70 focus:border-red-400 focus:ring-red-400 text-right file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                  className="w-full h-auto bg-transparent border-0 text-blue-100 placeholder:text-blue-300/70 focus:ring-0 text-right file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 file:cursor-pointer"
                 />
               </div>
 
@@ -134,36 +140,6 @@ export default function CreateBlogPage() {
                 />
               </div>
 
-              <div>
-                <Label htmlFor="status" className="block text-lg font-medium text-blue-200 mb-2 text-right">
-                  {"حالت"} {/* Status */}
-                </Label>
-                <Select name="status" defaultValue="draft">
-                  <SelectTrigger className="w-full bg-gray-700 border-blue-600 text-blue-100 focus:border-red-400 focus:ring-red-400">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="draft">ڈرافٹ</SelectItem>
-                    <SelectItem value="published">شائع شدہ</SelectItem>
-                    <SelectItem value="archived">محفوظ شدہ</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
-                <Label htmlFor="featured" className="block text-lg font-medium text-blue-200 mb-2 text-right">
-                  {"خصوصی پوسٹ"} {/* Featured Post */}
-                </Label>
-                <Select name="featured" defaultValue="false">
-                  <SelectTrigger className="w-full bg-gray-700 border-blue-600 text-blue-100 focus:border-red-400 focus:ring-red-400">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="false">نہیں</SelectItem>
-                    <SelectItem value="true">ہاں</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
               <Button
                 type="submit"
                 className="w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 px-6 rounded-full transition-colors duration-300 transform hover:scale-105 text-xl"

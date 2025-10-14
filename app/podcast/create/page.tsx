@@ -9,11 +9,30 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { ClientPageLayout } from "@/components/layout/page-layout-client"
 import { createPodcast } from "./actions"
+import { useSession } from "@/hooks/use-session"
 
 export default function CreatePodcastPage() {
   const [state, formAction] = useActionState(createPodcast, null)
+  const { session, loading } = useSession()
+  
+  if (loading) {
+    return (
+      <ClientPageLayout currentPath="/podcast">
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="text-blue-200">Loading...</div>
+        </div>
+      </ClientPageLayout>
+    )
+  }
+
+  const displayName = session?.name?.trim()?.split(" ")?.[0] || session?.username || null
+
   return (
-    <ClientPageLayout currentPath="/podcast">
+    <ClientPageLayout 
+      currentPath="/podcast"
+      isLoggedIn={!!session}
+      displayName={displayName}
+    >
       <div className="container mx-auto px-4 md:px-8 py-16 md:py-24">
         <div className="mb-8 flex justify-between items-center">
           <h1 className="text-4xl md:text-5xl font-extrabold text-red-400">نیا پوڈکاسٹ</h1>
@@ -75,7 +94,7 @@ export default function CreatePodcastPage() {
                   name="thumbnail" 
                   type="file"
                   accept="image/*"
-                  className="w-full bg-gray-700 border-blue-600 text-blue-100 placeholder:text-blue-300/70 focus:border-red-400 focus:ring-red-400 text-right file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                  className="w-full h-auto bg-transparent border-0 text-blue-100 placeholder:text-blue-300/70 focus:ring-0 text-right file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 file:cursor-pointer"
                 />
               </div>
 
@@ -88,18 +107,6 @@ export default function CreatePodcastPage() {
                   name="host" 
                   className="w-full bg-gray-700 border-blue-600 text-blue-100 placeholder:text-blue-300/70 focus:border-red-400 focus:ring-red-400 text-right"
                   placeholder="میزبان کا نام"
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="author" className="block text-lg font-medium text-blue-200 mb-2 text-right">
-                  {"مصنف"} {/* Author */}
-                </Label>
-                <Input 
-                  id="author" 
-                  name="author" 
-                  className="w-full bg-gray-700 border-blue-600 text-blue-100 placeholder:text-blue-300/70 focus:border-red-400 focus:ring-red-400 text-right"
-                  placeholder="مصنف کا نام"
                 />
               </div>
 
@@ -162,36 +169,6 @@ export default function CreatePodcastPage() {
                 />
               </div>
 
-              <div>
-                <Label htmlFor="status" className="block text-lg font-medium text-blue-200 mb-2 text-right">
-                  {"حالت"} {/* Status */}
-                </Label>
-                <Select name="status" defaultValue="draft">
-                  <SelectTrigger className="w-full bg-gray-700 border-blue-600 text-blue-100 focus:border-red-400 focus:ring-red-400">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="draft">ڈرافٹ</SelectItem>
-                    <SelectItem value="published">شائع شدہ</SelectItem>
-                    <SelectItem value="archived">محفوظ شدہ</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
-                <Label htmlFor="featured" className="block text-lg font-medium text-blue-200 mb-2 text-right">
-                  {"خصوصی پوڈکاسٹ"} {/* Featured Podcast */}
-                </Label>
-                <Select name="featured" defaultValue="false">
-                  <SelectTrigger className="w-full bg-gray-700 border-blue-600 text-blue-100 focus:border-red-400 focus:ring-red-400">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="false">نہیں</SelectItem>
-                    <SelectItem value="true">ہاں</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
 
               <div className="flex gap-3 items-center">
                 <Button type="submit" className="bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 px-6 rounded-full transition-colors duration-300 transform hover:scale-105 text-xl">
