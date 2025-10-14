@@ -7,11 +7,30 @@ import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ClientPageLayout } from "@/components/layout/page-layout-client"
 import { createBook } from "./actions"
+import { useSession } from "@/hooks/use-session"
 
 export default function CreateBookPage() {
   const [state, formAction] = useActionState(createBook, null)
+  const { session, loading } = useSession()
+  
+  if (loading) {
+    return (
+      <ClientPageLayout currentPath="/books">
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="text-blue-200">Loading...</div>
+        </div>
+      </ClientPageLayout>
+    )
+  }
+
+  const displayName = session?.name?.trim()?.split(" ")?.[0] || session?.username || null
+
   return (
-    <ClientPageLayout currentPath="/books">
+    <ClientPageLayout 
+      currentPath="/books"
+      isLoggedIn={true}
+      displayName={displayName}
+    >
       <div className="container mx-auto px-4 md:px-8 py-16 md:py-24">
         <div className="mb-8 flex justify-between items-center">
           <h1 className="text-4xl md:text-5xl font-extrabold text-red-400">نئی کتاب</h1>

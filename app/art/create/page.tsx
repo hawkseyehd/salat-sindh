@@ -5,11 +5,30 @@ import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { createArtPiece } from "./actions"
 import { ClientPageLayout } from "@/components/layout/page-layout-client"
+import { useSession } from "@/hooks/use-session"
 
 export default function CreateArtPage() {
   const [state, formAction] = useActionState(createArtPiece, null)
+  const { session, loading } = useSession()
+  
+  if (loading) {
+    return (
+      <ClientPageLayout currentPath="/art">
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="text-blue-200">Loading...</div>
+        </div>
+      </ClientPageLayout>
+    )
+  }
+
+  const displayName = session?.name?.trim()?.split(" ")?.[0] || session?.username || null
+
   return (
-    <ClientPageLayout currentPath="/art">
+    <ClientPageLayout 
+      currentPath="/art"
+      isLoggedIn={true}
+      displayName={displayName}
+    >
       <div className="py-16 md:py-24 flex items-center justify-center">
         <Card className="w-full max-w-3xl mx-auto bg-gray-800 rounded-2xl shadow-xl border border-blue-700/30">
           <CardHeader className="pb-6 text-center">

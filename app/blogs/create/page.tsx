@@ -29,7 +29,7 @@ export default function CreateBlogPage() {
   return (
     <ClientPageLayout 
       currentPath="/blogs"
-      isLoggedIn={!!session}
+      isLoggedIn={true}
       displayName={displayName}
     >
       <div className="py-16 md:py-24 flex items-center justify-center">

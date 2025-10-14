@@ -6,11 +6,30 @@ import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ClientPageLayout } from "@/components/layout/page-layout-client"
 import { createLibraryItem } from "./actions"
+import { useSession } from "@/hooks/use-session"
 
 export default function CreateLibraryItemPage() {
   const [state, formAction] = useActionState(createLibraryItem, null)
+  const { session, loading } = useSession()
+  
+  if (loading) {
+    return (
+      <ClientPageLayout currentPath="/library">
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="text-blue-200">Loading...</div>
+        </div>
+      </ClientPageLayout>
+    )
+  }
+
+  const displayName = session?.name?.trim()?.split(" ")?.[0] || session?.username || null
+
   return (
-    <ClientPageLayout currentPath="/library">
+    <ClientPageLayout 
+      currentPath="/library"
+      isLoggedIn={true}
+      displayName={displayName}
+    >
       <div className="container mx-auto px-4 md:px-8 py-16 md:py-24">
         <div className="mb-8 flex justify-between items-center">
           <h1 className="text-4xl md:text-5xl font-extrabold text-red-400">نئی لائبریری آئٹم</h1>

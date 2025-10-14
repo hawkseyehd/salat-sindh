@@ -30,7 +30,7 @@ export default function CreatePodcastPage() {
   return (
     <ClientPageLayout 
       currentPath="/podcast"
-      isLoggedIn={!!session}
+      isLoggedIn={true}
       displayName={displayName}
     >
       <div className="container mx-auto px-4 md:px-8 py-16 md:py-24">
