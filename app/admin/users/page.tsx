@@ -18,8 +18,8 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import { listItems } from '@/lib/json-store'
-import { UserActions, UserRoleSelect, UserStatusSelect } from '@/components/admin/user-actions'
-import { updateUserRole, updateUserStatus, deleteUser } from './actions'
+import { UserActions, UserRoleSelect, UserStatusSelect, UserVerificationSelect } from '@/components/admin/user-actions'
+import { updateUserRole, updateUserStatus, updateUserVerification, deleteUser } from './actions'
 
 export default async function AdminUsersPage() {
   const users = await listItems('users')
@@ -40,7 +40,7 @@ export default async function AdminUsersPage() {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-gray-600">Total Users</CardTitle>
@@ -79,6 +79,16 @@ export default async function AdminUsersPage() {
             </div>
           </CardContent>
         </Card>
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-gray-600">Verified</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-blue-600">
+              {users.filter((user: any) => user.verified === true).length}
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Users Table */}
@@ -107,6 +117,7 @@ export default async function AdminUsersPage() {
                 <TableHead>User</TableHead>
                 <TableHead>Role</TableHead>
                 <TableHead>Status</TableHead>
+                <TableHead>Verified</TableHead>
                 <TableHead>Joined</TableHead>
                 <TableHead>Actions</TableHead>
               </TableRow>
@@ -141,6 +152,12 @@ export default async function AdminUsersPage() {
                     />
                   </TableCell>
                   <TableCell>
+                    <UserVerificationSelect 
+                      user={user}
+                      onVerificationUpdate={updateUserVerification}
+                    />
+                  </TableCell>
+                  <TableCell>
                     <div className="flex items-center text-sm text-gray-500 gap-1">
                       <Calendar className="h-4 w-4" />
                       {new Date(user.createdAt).toLocaleDateString()}
@@ -151,6 +168,7 @@ export default async function AdminUsersPage() {
                       user={user}
                       onRoleUpdate={updateUserRole}
                       onStatusUpdate={updateUserStatus}
+                      onVerificationUpdate={updateUserVerification}
                       onDelete={deleteUser}
                     />
                   </TableCell>

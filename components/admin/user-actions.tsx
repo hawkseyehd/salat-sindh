@@ -18,7 +18,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { Edit, Trash2, Shield } from 'lucide-react'
+import { Edit, Trash2, Shield, CheckCircle, XCircle } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
 
@@ -29,13 +29,15 @@ interface UserActionsProps {
     email: string
     role?: string
     status?: string
+    verified?: boolean
   }
   onRoleUpdate: (userId: string, newRole: string) => Promise<void>
   onStatusUpdate: (userId: string, newStatus: string) => Promise<void>
+  onVerificationUpdate: (userId: string, verified: boolean) => Promise<void>
   onDelete: (userId: string) => Promise<void>
 }
 
-export function UserActions({ user, onRoleUpdate, onStatusUpdate, onDelete }: UserActionsProps) {
+export function UserActions({ user, onRoleUpdate, onStatusUpdate, onVerificationUpdate, onDelete }: UserActionsProps) {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
@@ -192,6 +194,47 @@ export function UserStatusSelect({ user, onStatusUpdate }: { user: any, onStatus
             </Badge>
           </SelectItem>
         ))}
+      </SelectContent>
+    </Select>
+  )
+}
+
+export function UserVerificationSelect({ user, onVerificationUpdate }: { user: any, onVerificationUpdate: (userId: string, verified: boolean) => Promise<void> }) {
+  const [isLoading, setIsLoading] = useState(false)
+
+  const handleVerificationChange = async (verified: string) => {
+    setIsLoading(true)
+    try {
+      await onVerificationUpdate(user.id, verified === 'true')
+    } catch (error) {
+      console.error('Error updating verification:', error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  return (
+    <Select 
+      defaultValue={user.verified ? 'true' : 'false'}
+      onValueChange={handleVerificationChange}
+      disabled={isLoading}
+    >
+      <SelectTrigger className="w-32 rounded-lg shadow-sm">
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="true">
+          <div className="flex items-center gap-2">
+            <CheckCircle className="h-3 w-3 text-green-600" />
+            <span className="text-green-600">Verified</span>
+          </div>
+        </SelectItem>
+        <SelectItem value="false">
+          <div className="flex items-center gap-2">
+            <XCircle className="h-3 w-3 text-red-600" />
+            <span className="text-red-600">Unverified</span>
+          </div>
+        </SelectItem>
       </SelectContent>
     </Select>
   )

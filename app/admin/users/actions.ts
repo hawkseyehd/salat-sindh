@@ -28,6 +28,18 @@ export async function updateUserStatus(userId: string, newStatus: string) {
   })
 }
 
+export async function updateUserVerification(userId: string, verified: boolean) {
+  const session = await getSession()
+  if (!session || session.role !== 'admin') {
+    redirect('/login')
+  }
+
+  await updateItem('users', userId, { 
+    verified: verified, 
+    updatedAt: new Date().toISOString() 
+  })
+}
+
 export async function deleteUser(userId: string) {
   const session = await getSession()
   if (!session || session.role !== 'admin') {
