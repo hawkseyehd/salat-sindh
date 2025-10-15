@@ -17,27 +17,28 @@ import Link from 'next/link'
 import { useState } from 'react'
 
 interface ContentActionsProps {
-  item: {
+  content: {
     id: string
     title: string
-    type: string
     approved?: boolean
     rejected?: boolean
   }
-  onApprove: (id: string, type: string) => Promise<void>
-  onReject: (id: string, type: string, reason: string) => Promise<void>
-  onDelete: (id: string, type: string) => Promise<void>
+  contentType: 'blogs' | 'articles' | 'videos' | 'books' | 'podcasts' | 'gallery' | 'education' | 'library' | 'store'
+  onApprove: (id: string) => Promise<void>
+  onReject: (id: string, reason: string) => Promise<void>
+  onDelete: (id: string) => Promise<void>
 }
 
-export function ContentActions({ item, onApprove, onReject, onDelete }: ContentActionsProps) {
+export function ContentActions({ content, contentType, onApprove, onReject, onDelete }: ContentActionsProps) {
   const [rejectionReason, setRejectionReason] = useState('')
   const [isRejectDialogOpen, setIsRejectDialogOpen] = useState(false)
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
   const handleApprove = async () => {
     setIsLoading(true)
     try {
-      await onApprove(item.id, item.type)
+      await onApprove(content.id)
     } catch (error) {
       console.error('Error approving content:', error)
     } finally {
@@ -50,7 +51,7 @@ export function ContentActions({ item, onApprove, onReject, onDelete }: ContentA
     
     setIsLoading(true)
     try {
-      await onReject(item.id, item.type, rejectionReason)
+      await onReject(content.id, rejectionReason)
       setIsRejectDialogOpen(false)
       setRejectionReason('')
     } catch (error) {
@@ -61,29 +62,30 @@ export function ContentActions({ item, onApprove, onReject, onDelete }: ContentA
   }
 
   const handleDelete = async () => {
-    if (confirm(`Are you sure you want to delete "${item.title}"?`)) {
-      setIsLoading(true)
-      try {
-        await onDelete(item.id, item.type)
-      } catch (error) {
-        console.error('Error deleting content:', error)
-      } finally {
-        setIsLoading(false)
-      }
+    setIsLoading(true)
+    try {
+      await onDelete(content.id)
+      setIsDeleteDialogOpen(false)
+    } catch (error) {
+      console.error('Error deleting content:', error)
+    } finally {
+      setIsLoading(false)
     }
   }
 
   return (
     <div className="flex items-center space-x-2">
-      <Button size="sm" variant="outline">
-        <Eye className="h-4 w-4" />
+      <Button size="sm" variant="outline" asChild>
+        <Link href={`/${contentType}/${content.id}`}>
+          <Eye className="h-4 w-4" />
+        </Link>
       </Button>
       <Button size="sm" variant="outline" asChild>
-        <Link href={`/${item.type}s/edit/${item.id}`}>
+        <Link href={`/${contentType}/edit/${content.id}`}>
           <Edit className="h-4 w-4" />
         </Link>
       </Button>
-      {!item.approved && !item.rejected && (
+      {!content.approved && !content.rejected && (
         <>
           <Button 
             size="sm" 
@@ -100,11 +102,11 @@ export function ContentActions({ item, onApprove, onReject, onDelete }: ContentA
                 <XCircle className="h-4 w-4" />
               </Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="bg-white border border-gray-200 shadow-xl">
               <DialogHeader>
                 <DialogTitle>Reject Content</DialogTitle>
                 <DialogDescription>
-                  Please provide a reason for rejecting "{item.title}".
+                  Please provide a reason for rejecting "{content.title}".
                 </DialogDescription>
               </DialogHeader>
               <div className="space-y-4">
@@ -139,14 +141,37 @@ export function ContentActions({ item, onApprove, onReject, onDelete }: ContentA
           </Dialog>
         </>
       )}
-      <Button 
-        size="sm" 
-        variant="destructive"
-        onClick={handleDelete}
-        disabled={isLoading}
-      >
-        <Trash2 className="h-4 w-4" />
-      </Button>
+      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <DialogTrigger asChild>
+          <Button size="sm" variant="destructive">
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="bg-white border border-gray-200 shadow-xl">
+          <DialogHeader>
+            <DialogTitle>Delete Content</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to delete "{content.title}"? This action cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button 
+              variant="outline" 
+              onClick={() => setIsDeleteDialogOpen(false)}
+              disabled={isLoading}
+            >
+              Cancel
+            </Button>
+            <Button 
+              variant="destructive" 
+              onClick={handleDelete}
+              disabled={isLoading}
+            >
+              {isLoading ? 'Deleting...' : 'Delete Content'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

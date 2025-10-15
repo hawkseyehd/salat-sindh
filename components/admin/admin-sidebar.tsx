@@ -31,12 +31,12 @@ const navigation = [
   { name: 'Library', href: '/admin/library', icon: BookOpen },
   { name: 'Store', href: '/admin/store', icon: BookOpen },
   { name: 'User Management', href: '/admin/users', icon: Users },
-  { name: 'Roles & Permissions', href: '/admin/roles', icon: Shield },
   { name: 'Content Approval', href: '/admin/approvals', icon: CheckCircle },
   { name: 'Analytics', href: '/admin/analytics', icon: BarChart3 },
   { name: 'Notifications', href: '/admin/notifications', icon: Bell },
-  { name: 'Maintenance', href: '/admin/maintenance', icon: Settings },
-  { name: 'Settings', href: '/admin/settings', icon: Settings },
+  // Maintenance and Settings pages are hidden but not deleted
+  // { name: 'Maintenance', href: '/admin/maintenance', icon: Settings },
+  // { name: 'Settings', href: '/admin/settings', icon: Settings },
 ]
 
 export function AdminSidebar() {

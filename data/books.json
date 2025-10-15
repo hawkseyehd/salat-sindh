@@ -1,10 +1,15 @@
 [
   {
-    "title": "test book",
+    "title": "test book Updated",
     "author": "test author",
     "description": "test summary",
     "cover": "https://res.cloudinary.com/dmbn0lb9r/image/upload/v1760077888/cover-1760077887583-zm0oba.png",
     "id": "1760077887583-zm0oba",
-    "createdAt": "2025-10-10T06:31:27.583Z"
+    "createdAt": "2025-10-10T06:31:27.583Z",
+    "isbn": "",
+    "thumbnail": "",
+    "category": "",
+    "tags": [],
+    "updatedAt": "2025-10-15T12:09:15.363Z"
   }
 ]

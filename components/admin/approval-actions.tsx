@@ -72,7 +72,7 @@ export function ApprovalActions({ itemId, itemType, onApprove, onReject }: Appro
             Reject
           </Button>
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent className="bg-white border border-gray-200 shadow-xl">
           <DialogHeader>
             <DialogTitle>Reject Content</DialogTitle>
             <DialogDescription>

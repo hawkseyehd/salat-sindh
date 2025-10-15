@@ -134,7 +134,7 @@ export default async function AdminAnalyticsPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center">
+            <CardTitle className="flex items-center gap-2">
               <BarChart3 className="h-5 w-5 mr-2 text-blue-600" />
               Content by Type
             </CardTitle>
@@ -146,11 +146,11 @@ export default async function AdminAnalyticsPage() {
             <div className="space-y-4">
               {contentByType.map((item) => (
                 <div key={item.type} className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
+                  <div className="flex items-center space-x-3 gap-2">
                     <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
                     <span className="font-medium">{item.type}</span>
                   </div>
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-2 gap-2">
                     <Badge variant="outline" className="text-green-600 border-green-600">
                       {item.approved} approved
                     </Badge>
@@ -164,7 +164,7 @@ export default async function AdminAnalyticsPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center">
+            <CardTitle className="flex items-center gap-2">
               <Activity className="h-5 w-5 mr-2 text-green-600" />
               Recent Activity
             </CardTitle>
@@ -176,7 +176,7 @@ export default async function AdminAnalyticsPage() {
             <div className="space-y-3">
               {recentContent.slice(0, 5).map((item: any, index) => (
                 <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                  <div className="flex items-center space-x-3">
+                  <div className="flex items-center space-x-3 gap-2">
                     <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                     <div>
                       <p className="font-medium text-sm">{item.title}</p>
@@ -201,7 +201,7 @@ export default async function AdminAnalyticsPage() {
       {/* User Statistics */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center">
+          <CardTitle className="flex items-center gap-2">
             <Users className="h-5 w-5 mr-2 text-indigo-600" />
             User Statistics
           </CardTitle>

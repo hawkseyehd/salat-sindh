@@ -24,6 +24,7 @@ import {
 import { listItems } from '@/lib/json-store'
 import { approveContent, rejectContent, approveUser, rejectUser } from './actions'
 import { ApprovalActions } from '@/components/admin/approval-actions'
+import { PreviewModal } from '@/components/admin/preview-modal'
 
 export default async function AdminApprovalsPage() {
   // Fetch all content types and users
@@ -254,10 +255,7 @@ export default async function AdminApprovalsPage() {
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center space-x-2">
-                        <Button size="sm" variant="outline">
-                          <Eye className="h-4 w-4 mr-1" />
-                          Preview
-                        </Button>
+                        <PreviewModal content={item} />
                         <ApprovalActions 
                           itemId={item.id} 
                           itemType={item.type}

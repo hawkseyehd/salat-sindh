@@ -142,12 +142,12 @@ export function UserRoleSelect({ user, onRoleUpdate }: { user: any, onRoleUpdate
       onValueChange={handleRoleChange}
       disabled={isLoading}
     >
-      <SelectTrigger className="w-32 rounded-lg shadow-sm">
+      <SelectTrigger className="w-32 rounded-lg shadow-sm bg-white text-gray-900">
         <SelectValue />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent className="bg-white border border-gray-200 shadow-lg">
         {roles.map((role) => (
-          <SelectItem key={role} value={role}>
+          <SelectItem key={role} value={role} className="bg-white text-gray-900 hover:bg-gray-100">
             <div className="flex items-center gap-2">
               <Shield className="h-3 w-3" />
               {role.charAt(0).toUpperCase() + role.slice(1)}
@@ -180,12 +180,12 @@ export function UserStatusSelect({ user, onStatusUpdate }: { user: any, onStatus
       onValueChange={handleStatusChange}
       disabled={isLoading}
     >
-      <SelectTrigger className="w-32 rounded-lg shadow-sm">
+      <SelectTrigger className="w-32 rounded-lg shadow-sm bg-white text-gray-900">
         <SelectValue />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent className="bg-white border border-gray-200 shadow-lg">
         {statuses.map((status) => (
-          <SelectItem key={status} value={status}>
+          <SelectItem key={status} value={status} className="bg-white text-gray-900 hover:bg-gray-100">
             <Badge 
               variant={status === 'active' ? 'default' : status === 'suspended' ? 'destructive' : 'secondary'}
               className="text-xs"
@@ -219,17 +219,17 @@ export function UserVerificationSelect({ user, onVerificationUpdate }: { user: a
       onValueChange={handleVerificationChange}
       disabled={isLoading}
     >
-      <SelectTrigger className="w-32 rounded-lg shadow-sm">
+      <SelectTrigger className="w-32 rounded-lg shadow-sm bg-white text-gray-900">
         <SelectValue />
       </SelectTrigger>
-      <SelectContent>
-        <SelectItem value="true">
+      <SelectContent className="bg-white border border-gray-200 shadow-lg">
+        <SelectItem value="true" className="bg-white text-gray-900 hover:bg-gray-100">
           <div className="flex items-center gap-2">
             <CheckCircle className="h-3 w-3 text-green-600" />
             <span className="text-green-600">Verified</span>
           </div>
         </SelectItem>
-        <SelectItem value="false">
+        <SelectItem value="false" className="bg-white text-gray-900 hover:bg-gray-100">
           <div className="flex items-center gap-2">
             <XCircle className="h-3 w-3 text-red-600" />
             <span className="text-red-600">Unverified</span>

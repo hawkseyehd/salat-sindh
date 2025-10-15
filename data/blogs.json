@@ -10,7 +10,7 @@
     "approvedBy": "1760083912954-zh0j4z"
   },
   {
-    "title": "new blog",
+    "title": "new blog Updated",
     "excerpt": "new blog summary",
     "content": "new blog content",
     "author": "MS",
@@ -29,7 +29,8 @@
     "id": "1760084009936-8j1prj",
     "createdAt": "2025-10-10T08:13:29.936Z",
     "approvedAt": "2025-10-10T08:23:06.155Z",
-    "approvedBy": "1760083912954-zh0j4z"
+    "approvedBy": "1760083912954-zh0j4z",
+    "updatedAt": "2025-10-15T12:02:25.333Z"
   },
   {
     "title": "The Beauty of Islamic Architecture",
@@ -39,7 +40,12 @@
     "image": "/uploads/islamic-architecture.jpg",
     "thumbnail": "/uploads/islamic-architecture-thumb.jpg",
     "category": "culture",
-    "tags": ["architecture", "islam", "history", "art"],
+    "tags": [
+      "architecture",
+      "islam",
+      "history",
+      "art"
+    ],
     "status": "published",
     "featured": true,
     "approved": true,
@@ -59,7 +65,12 @@
     "image": "/uploads/five-pillars.jpg",
     "thumbnail": "/uploads/five-pillars-thumb.jpg",
     "category": "religion",
-    "tags": ["islam", "pillars", "faith", "practice"],
+    "tags": [
+      "islam",
+      "pillars",
+      "faith",
+      "practice"
+    ],
     "status": "published",
     "featured": false,
     "approved": true,
@@ -79,7 +90,12 @@
     "image": "/uploads/tech-education.jpg",
     "thumbnail": "/uploads/tech-education-thumb.jpg",
     "category": "technology",
-    "tags": ["technology", "education", "islam", "digital"],
+    "tags": [
+      "technology",
+      "education",
+      "islam",
+      "digital"
+    ],
     "status": "published",
     "featured": true,
     "approved": true,
@@ -99,7 +115,12 @@
     "image": "/uploads/calligraphy.jpg",
     "thumbnail": "/uploads/calligraphy-thumb.jpg",
     "category": "art",
-    "tags": ["calligraphy", "arabic", "art", "spirituality"],
+    "tags": [
+      "calligraphy",
+      "arabic",
+      "art",
+      "spirituality"
+    ],
     "status": "published",
     "featured": false,
     "approved": true,
@@ -119,7 +140,12 @@
     "image": "/uploads/community-service.jpg",
     "thumbnail": "/uploads/community-service-thumb.jpg",
     "category": "community",
-    "tags": ["service", "community", "charity", "islam"],
+    "tags": [
+      "service",
+      "community",
+      "charity",
+      "islam"
+    ],
     "status": "published",
     "featured": true,
     "approved": true,
@@ -139,7 +165,12 @@
     "image": "/uploads/ramadan.jpg",
     "thumbnail": "/uploads/ramadan-thumb.jpg",
     "category": "religion",
-    "tags": ["ramadan", "fasting", "spirituality", "community"],
+    "tags": [
+      "ramadan",
+      "fasting",
+      "spirituality",
+      "community"
+    ],
     "status": "published",
     "featured": false,
     "approved": true,
@@ -159,7 +190,12 @@
     "image": "/uploads/women-islam.jpg",
     "thumbnail": "/uploads/women-islam-thumb.jpg",
     "category": "history",
-    "tags": ["women", "history", "islam", "empowerment"],
+    "tags": [
+      "women",
+      "history",
+      "islam",
+      "empowerment"
+    ],
     "status": "published",
     "featured": true,
     "approved": true,
@@ -179,7 +215,12 @@
     "image": "/uploads/sustainable-living.jpg",
     "thumbnail": "/uploads/sustainable-living-thumb.jpg",
     "category": "environment",
-    "tags": ["sustainability", "environment", "islam", "stewardship"],
+    "tags": [
+      "sustainability",
+      "environment",
+      "islam",
+      "stewardship"
+    ],
     "status": "draft",
     "featured": false,
     "approved": false,

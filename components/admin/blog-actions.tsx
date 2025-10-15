@@ -31,6 +31,7 @@ interface BlogActionsProps {
 export function BlogActions({ blog, onApprove, onReject, onDelete }: BlogActionsProps) {
   const [rejectionReason, setRejectionReason] = useState('')
   const [isRejectDialogOpen, setIsRejectDialogOpen] = useState(false)
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
   const handleApprove = async () => {
@@ -60,15 +61,14 @@ export function BlogActions({ blog, onApprove, onReject, onDelete }: BlogActions
   }
 
   const handleDelete = async () => {
-    if (confirm('Are you sure you want to delete this blog post?')) {
-      setIsLoading(true)
-      try {
-        await onDelete(blog.id)
-      } catch (error) {
-        console.error('Error deleting blog:', error)
-      } finally {
-        setIsLoading(false)
-      }
+    setIsLoading(true)
+    try {
+      await onDelete(blog.id)
+      setIsDeleteDialogOpen(false)
+    } catch (error) {
+      console.error('Error deleting blog:', error)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -101,7 +101,7 @@ export function BlogActions({ blog, onApprove, onReject, onDelete }: BlogActions
                 <XCircle className="h-4 w-4" />
               </Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="bg-white border border-gray-200 shadow-xl">
               <DialogHeader>
                 <DialogTitle>Reject Blog Post</DialogTitle>
                 <DialogDescription>
@@ -140,14 +140,37 @@ export function BlogActions({ blog, onApprove, onReject, onDelete }: BlogActions
           </Dialog>
         </>
       )}
-      <Button 
-        size="sm" 
-        variant="destructive"
-        onClick={handleDelete}
-        disabled={isLoading}
-      >
-        <Trash2 className="h-4 w-4" />
-      </Button>
+      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <DialogTrigger asChild>
+          <Button size="sm" variant="destructive">
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="bg-white border border-gray-200 shadow-xl">
+          <DialogHeader>
+            <DialogTitle>Delete Blog Post</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to delete "{blog.title}"? This action cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button 
+              variant="outline" 
+              onClick={() => setIsDeleteDialogOpen(false)}
+              disabled={isLoading}
+            >
+              Cancel
+            </Button>
+            <Button 
+              variant="destructive" 
+              onClick={handleDelete}
+              disabled={isLoading}
+            >
+              {isLoading ? 'Deleting...' : 'Delete Blog Post'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
