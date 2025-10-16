@@ -3,6 +3,7 @@ import Link from "next/link";
 import { MenuIcon } from "@/components/menu-icon";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { logoutAction } from "@/app/logout/actions";
+import { UserDropdown } from "./user-dropdown";
 
 interface NavLink {
   name: string;
@@ -14,6 +15,8 @@ interface AuthHeaderClientProps {
   showAuthLinks?: boolean;
   isLoggedIn: boolean;
   displayName?: string | null;
+  userRole?: string;
+  userAvatar?: string;
 }
 
 const publicNavLinks: NavLink[] = [
@@ -39,6 +42,8 @@ export function AuthHeaderClient({
   showAuthLinks = true,
   isLoggedIn,
   displayName,
+  userRole,
+  userAvatar,
 }: AuthHeaderClientProps) {
   const navLinks = isLoggedIn ? allNavLinks : publicNavLinks;
   
@@ -99,17 +104,11 @@ export function AuthHeaderClient({
                   </Link>
                 </>
               ) : (
-                <form action={logoutAction}>
-                  <div className="flex items-center gap-3">
-                    <span className="text-blue-300">{displayName}</span>
-                    <button
-                      type="submit"
-                      className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors duration-300"
-                    >
-                      لاگ آؤٹ
-                    </button>
-                  </div>
-                </form>
+                <UserDropdown 
+                  displayName={displayName || 'User'} 
+                  userRole={userRole}
+                  userAvatar={userAvatar}
+                />
               )}
             </>
           )}
@@ -167,17 +166,41 @@ export function AuthHeaderClient({
                         </SheetClose>
                       </div>
                     ) : (
-                      <form action={logoutAction} className="flex flex-col gap-3">
+                      <div className="flex flex-col gap-3">
                         <div className="text-blue-300">{displayName}</div>
-                        <SheetClose asChild>
-                          <button
-                            type="submit"
-                            className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors duration-300"
-                          >
-                            لاگ آؤٹ
-                          </button>
-                        </SheetClose>
-                      </form>
+                        <div className="flex flex-col gap-2">
+                          <SheetClose asChild>
+                            <Link
+                              href="/profile"
+                              className="text-blue-200 hover:text-red-400 transition-colors duration-300 px-4 py-2 rounded-lg border border-blue-700/30 hover:border-red-400/50 text-center"
+                              prefetch={false}
+                            >
+                              پروفائل
+                            </Link>
+                          </SheetClose>
+                          {userRole === 'admin' || userRole === 'team' ? (
+                            <SheetClose asChild>
+                              <Link
+                                href="/admin"
+                                className="text-blue-200 hover:text-red-400 transition-colors duration-300 px-4 py-2 rounded-lg border border-blue-700/30 hover:border-red-400/50 text-center"
+                                prefetch={false}
+                              >
+                                ڈیش بورڈ
+                              </Link>
+                            </SheetClose>
+                          ) : null}
+                          <form action={logoutAction}>
+                            <SheetClose asChild>
+                              <button
+                                type="submit"
+                                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors duration-300 w-full"
+                              >
+                                لاگ آؤٹ
+                              </button>
+                            </SheetClose>
+                          </form>
+                        </div>
+                      </div>
                     )}
                   </div>
                 )}

@@ -12,6 +12,7 @@ export type SessionUser = {
   role?: string
   verified?: boolean
   status?: string
+  avatar?: string
 }
 
 export async function setSession(user: SessionUser): Promise<void> {

@@ -231,5 +231,28 @@
     "createdAt": "2025-10-10T12:00:00.000Z",
     "approvedAt": null,
     "approvedBy": null
+  },
+  {
+    "title": "my first blog Updated",
+    "excerpt": "my first blog",
+    "content": "my first blog",
+    "author": "Muhammad Ziauddin",
+    "image": "",
+    "thumbnail": "",
+    "category": "lifestyle",
+    "tags": [
+      "new tag"
+    ],
+    "status": "draft",
+    "featured": false,
+    "approved": true,
+    "views": 0,
+    "likes": 0,
+    "publishedAt": null,
+    "id": "1760571621816-vc3xwk",
+    "createdAt": "2025-10-15T23:40:21.816Z",
+    "approvedAt": "2025-10-15T23:43:24.572Z",
+    "approvedBy": "1759932432155-ndip6n",
+    "updatedAt": "2025-10-16T00:03:04.879Z"
   }
 ]

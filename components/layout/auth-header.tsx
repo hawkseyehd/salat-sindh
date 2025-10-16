@@ -15,6 +15,8 @@ export async function AuthHeader({ currentPath = "/", showAuthLinks = true }: He
       showAuthLinks={showAuthLinks}
       isLoggedIn={!!session}
       displayName={displayName}
+      userRole={session?.role}
+      userAvatar={session?.avatar}
     />
   );
 }
