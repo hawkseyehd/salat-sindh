@@ -18,7 +18,7 @@ A comprehensive admin dashboard for managing the Salat Sindh platform with full 
 
 ### 👥 User Management
 - **User Administration**: View, edit, and manage user accounts
-- **Role Management**: Assign and modify user roles (admin, moderator, editor, user)
+- **Role Management**: Assign and modify user roles (admin, moderator, team, user)
 - **Permission System**: Granular permission control for different user types
 - **User Statistics**: Track user registration and activity
 
@@ -93,7 +93,7 @@ components/admin/
 ### Permission System
 - **Admin**: Full access to all features
 - **Moderator**: Content management and user viewing
-- **Editor**: Content creation and editing
+- **Team**: Team member with admin permissions
 - **User**: Basic access (redirected from admin routes)
 
 ## Content Approval Workflow
@@ -113,7 +113,7 @@ components/admin/
   "name": "User Name",
   "username": "username",
   "email": "user@example.com",
-  "role": "admin|moderator|editor|user",
+  "role": "admin|moderator|team|user",
   "status": "active|inactive|suspended",
   "createdAt": "2024-01-01T00:00:00.000Z"
 }

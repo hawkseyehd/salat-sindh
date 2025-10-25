@@ -6,9 +6,11 @@
     "password": "nizamani",
     "id": "1759932432155-ndip6n",
     "createdAt": "2025-10-08T14:07:12.155Z",
-    "role": "admin",
+    "role": "team",
     "status": "active",
-    "verified": true
+    "verified": true,
+    "avatar": "/uploads/avatars/1759932432155-ndip6n-1761431614663.png",
+    "updatedAt": "2025-10-25T22:34:07.875Z"
   },
   {
     "name": "Lalo Useless",
@@ -38,23 +40,47 @@
     "username": "testuser",
     "email": "test@testemail.com",
     "password": "samo1",
-    "role": "user",
+    "role": "team",
     "verified": true,
     "status": "active",
     "createdAt": "2025-10-10T08:45:36.928Z",
     "id": "1760085936928-r6rf3g",
-    "updatedAt": "2025-10-15T11:23:36.891Z"
+    "updatedAt": "2025-10-25T22:32:36.721Z"
   },
   {
     "name": "test2",
     "username": "test2",
     "email": "test2@test2.com",
     "password": "Samo",
-    "role": "user",
+    "role": "team",
     "verified": true,
     "status": "active",
     "createdAt": "2025-10-15T11:16:10.479Z",
     "id": "1760526970479-n8g5qu",
-    "updatedAt": "2025-10-15T11:23:32.819Z"
+    "updatedAt": "2025-10-25T22:32:39.807Z"
+  },
+  {
+    "name": "احمد علی",
+    "username": "ahmed_ali",
+    "email": "ahmed@team.com",
+    "password": "team123",
+    "role": "team",
+    "verified": true,
+    "status": "active",
+    "createdAt": "2025-01-15T10:00:00.000Z",
+    "id": "team-member-001",
+    "avatar": "/placeholder.svg?height=120&width=120"
+  },
+  {
+    "name": "فاطمہ خان",
+    "username": "fatima_khan",
+    "email": "fatima@team.com",
+    "password": "team123",
+    "role": "team",
+    "verified": true,
+    "status": "active",
+    "createdAt": "2025-01-15T10:00:00.000Z",
+    "id": "team-member-002",
+    "avatar": "/placeholder.svg?height=120&width=120"
   }
 ]

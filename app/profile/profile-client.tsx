@@ -145,7 +145,7 @@ export function ProfileClient({ user }: ProfileClientProps) {
                   <div className="flex flex-col items-start gap-4">
                     <label className="text-sm font-medium text-blue-300">پروفائل تصویر</label>
                     <AvatarUpload
-                      currentAvatar={userAvatar}
+                      currentAvatar={userAvatar ?? undefined}
                       username={user.username}
                       onAvatarChange={setUserAvatar}
                     />

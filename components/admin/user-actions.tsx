@@ -41,7 +41,7 @@ export function UserActions({ user, onRoleUpdate, onStatusUpdate, onVerification
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
-  const roles = ['admin', 'moderator', 'editor', 'user']
+  const roles = ['admin', 'moderator', 'team', 'user']
   const statuses = ['active', 'inactive', 'suspended']
 
   const handleRoleChange = async (newRole: string) => {
@@ -123,7 +123,7 @@ export function UserActions({ user, onRoleUpdate, onStatusUpdate, onVerification
 
 export function UserRoleSelect({ user, onRoleUpdate }: { user: any, onRoleUpdate: (userId: string, newRole: string) => Promise<void> }) {
   const [isLoading, setIsLoading] = useState(false)
-  const roles = ['admin', 'moderator', 'editor', 'user']
+  const roles = ['admin', 'moderator', 'team', 'user']
 
   const handleRoleChange = async (newRole: string) => {
     setIsLoading(true)

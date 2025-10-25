@@ -37,17 +37,6 @@
     "createdAt": "2025-10-09T10:00:47.453Z"
   },
   {
-    "id": "1760004047771-ba01hv",
-    "name": "Editor",
-    "description": "Can create and edit content",
-    "permissions": [
-      "content.create",
-      "content.edit",
-      "content.approve"
-    ],
-    "createdAt": "2025-10-09T10:00:47.771Z"
-  },
-  {
     "id": "1760004047811-ezpivj",
     "name": "User",
     "description": "Basic user access",

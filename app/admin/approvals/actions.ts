@@ -1,13 +1,18 @@
 'use server'
 
 import { updateItem } from '@/lib/json-store'
-import { getSession } from '@/lib/auth'
+import { getSession, canApproveContent, canRejectContent } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 
 export async function approveContent(id: string, type: string) {
   const session = await getSession()
-  if (!session || session.role !== 'admin') {
+  if (!session) {
     redirect('/login')
+  }
+
+  // Check if user has permission to approve content
+  if (!(await canApproveContent())) {
+    redirect('/')
   }
 
   const fileBaseName = type === 'podcast' ? 'podcast' : type + 's'
@@ -21,8 +26,13 @@ export async function approveContent(id: string, type: string) {
 
 export async function rejectContent(id: string, type: string, reason: string) {
   const session = await getSession()
-  if (!session || session.role !== 'admin') {
+  if (!session) {
     redirect('/login')
+  }
+
+  // Check if user has permission to reject content
+  if (!(await canRejectContent())) {
+    redirect('/')
   }
 
   const fileBaseName = type === 'podcast' ? 'podcast' : type + 's'
