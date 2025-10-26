@@ -1,0 +1,34 @@
+[
+  {
+    "id": "1761440756467-mcqate",
+    "contentId": "1760085000001-abc123",
+    "contentType": "blog",
+    "userId": "1759932432155-ndip6n",
+    "type": "like",
+    "createdAt": "2025-10-26T01:06:04.920Z"
+  },
+  {
+    "id": "1761441335117-cmgze6",
+    "contentId": "1760085000007-stu901",
+    "contentType": "blog",
+    "userId": "1759932432155-ndip6n",
+    "type": "like",
+    "createdAt": "2025-10-26T01:15:35.117Z"
+  },
+  {
+    "id": "1761441370827-towt2y",
+    "contentId": "1761440861133-ires6j",
+    "contentType": "article",
+    "userId": "1759932432155-ndip6n",
+    "type": "dislike",
+    "createdAt": "2025-10-26T01:16:10.827Z"
+  },
+  {
+    "id": "1761441640614-vxdzmv",
+    "contentId": "1761441608394-mqqkmf",
+    "contentType": "article",
+    "userId": "1759932432155-ndip6n",
+    "type": "dislike",
+    "createdAt": "2025-10-26T01:20:40.614Z"
+  }
+]

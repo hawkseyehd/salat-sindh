@@ -20,6 +20,7 @@ export async function approveContent(id: string, type: string) {
   await updateItem(fileBaseName, id, {
     approved: true,
     approvedAt: new Date().toISOString(),
+    publishedAt: new Date().toISOString(),
     approvedBy: session.id
   })
 }

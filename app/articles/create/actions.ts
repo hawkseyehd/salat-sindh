@@ -2,7 +2,7 @@
 
 import { appendItem } from "@/lib/json-store"
 import { uploadImagesFromFormData } from "@/lib/file-upload"
-import { canPost, getSession } from "@/lib/auth"
+import { canPost, getSession, isAdmin, isTeam } from "@/lib/auth"
 
 export async function createArticle(prevState: any, formData: FormData) {
   // Check if user can post
@@ -25,16 +25,34 @@ export async function createArticle(prevState: any, formData: FormData) {
   
   // Use current user as author and set default values
   const author = session.name || session.username
-  const status = "draft" // All new content starts as draft
   const featured = false // Featured status managed from dashboard
+  
+  // Check if user is admin or team member for auto-approval
+  const isUserAdmin = await isAdmin()
+  const isUserTeam = await isTeam()
+  const shouldAutoApprove = isUserAdmin || isUserTeam
+  
+  const status = shouldAutoApprove ? "published" : "draft"
+  const approved = shouldAutoApprove
+  const publishedAt = shouldAutoApprove ? new Date().toISOString() : null
 
   if (!title || !content) {
     return { success: false, message: "عنوان اور مواد ضروری ہیں۔" }
   }
 
   // Upload image if provided
-  const uploadedImages = await uploadImagesFromFormData(formData, ['image'])
-  const image = uploadedImages.image || ''
+  let image = ''
+  
+  try {
+    const uploadedImages = await uploadImagesFromFormData(formData, ['image'])
+    image = uploadedImages.image || ''
+    
+    // Log upload results for debugging
+    console.log('Article upload results:', { image, uploadedImages })
+  } catch (error) {
+    console.error('Error uploading image:', error)
+    return { success: false, message: "تصویر اپ لوڈ کرنے میں خرابی۔" }
+  }
 
   // Process tags
   const tagsArray = tags ? tags.split(',').map(tag => tag.trim()).filter(tag => tag) : []
@@ -49,15 +67,19 @@ export async function createArticle(prevState: any, formData: FormData) {
     tags: tagsArray,
     status,
     featured,
-    approved: false, // New content needs approval
+    approved, // Auto-approve for admin/team, needs approval for others
     views: 0,
     likes: 0,
-    publishedAt: status === "published" ? new Date().toISOString() : null
+    publishedAt
   }
 
   await appendItem("articles", articleData)
 
-  return { success: true, message: "مضمون کامیابی سے بنایا گیا۔" }
+  const message = shouldAutoApprove 
+    ? "مضمون کامیابی سے شائع ہو گیا۔" 
+    : "مضمون کامیابی سے بنایا گیا۔ منظوری کے لیے انتظار کریں۔"
+  
+  return { success: true, message }
 }
 
 

@@ -214,6 +214,18 @@ export default async function HomePage() {
                     key={item.id}
                     className={`bg-gray-800 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border ${contentType.borderColor} flex flex-col`}
                   >
+                    {/* Thumbnail Image */}
+                    {(item.thumbnail || item.image) && (
+                      <div className="relative h-48 w-full overflow-hidden rounded-t-2xl">
+                        <Image
+                          src={item.thumbnail || item.image}
+                          alt={item.title}
+                          fill
+                          className="object-cover transition-transform duration-300 hover:scale-105"
+                        />
+                      </div>
+                    )}
+                    
                     <CardHeader className="pb-4">
                       <div className="flex items-center gap-3 mb-3">
                         <div className={`p-2 rounded-lg ${contentType.bgColor}`}>

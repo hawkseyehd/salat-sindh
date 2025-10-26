@@ -2,7 +2,7 @@
 
 import { appendItem } from "@/lib/json-store"
 import { uploadImagesFromFormData } from "@/lib/file-upload"
-import { canPost, getSession } from "@/lib/auth"
+import { canPost, getSession, isAdmin, isTeam } from "@/lib/auth"
 
 export async function createBlogPost(prevState: any, formData: FormData) {
   // Check if user can post
@@ -25,17 +25,46 @@ export async function createBlogPost(prevState: any, formData: FormData) {
   
   // Use current user as author and set default values
   const author = session.name || session.username
-  const status = "draft" // All new content starts as draft
   const featured = false // Featured status managed from dashboard
+  
+  // Check if user is admin or team member for auto-approval
+  const isUserAdmin = await isAdmin()
+  const isUserTeam = await isTeam()
+  const shouldAutoApprove = isUserAdmin || isUserTeam
+  
+  const status = shouldAutoApprove ? "published" : "draft"
+  const approved = shouldAutoApprove
+  const publishedAt = shouldAutoApprove ? new Date().toISOString() : null
 
   if (!title || !content) {
     return { success: false, message: "عنوان اور مواد ضروری ہیں۔" }
   }
 
   // Upload images if provided
-  const uploadedImages = await uploadImagesFromFormData(formData, ['image', 'thumbnail'])
-  const image = uploadedImages.image || ''
-  const thumbnail = uploadedImages.thumbnail || ''
+  let image = ''
+  let thumbnail = ''
+  
+  // Debug: Check what files are in formData
+  console.log('FormData entries:')
+  for (const [key, value] of formData.entries()) {
+    if (value instanceof File) {
+      console.log(`${key}: File - ${value.name}, size: ${value.size}, type: ${value.type}`)
+    } else {
+      console.log(`${key}: ${value}`)
+    }
+  }
+  
+  try {
+    const uploadedImages = await uploadImagesFromFormData(formData, ['image', 'thumbnail'])
+    image = uploadedImages.image || ''
+    thumbnail = uploadedImages.thumbnail || ''
+    
+    // Log upload results for debugging
+    console.log('Blog upload results:', { image, thumbnail, uploadedImages })
+  } catch (error) {
+    console.error('Error uploading images:', error)
+    return { success: false, message: "تصاویر اپ لوڈ کرنے میں خرابی۔" }
+  }
 
   // Process tags
   const tagsArray = tags ? tags.split(',').map(tag => tag.trim()).filter(tag => tag) : []
@@ -51,15 +80,19 @@ export async function createBlogPost(prevState: any, formData: FormData) {
     tags: tagsArray,
     status,
     featured,
-    approved: false, // New content needs approval
+    approved, // Auto-approve for admin/team, needs approval for others
     views: 0,
     likes: 0,
-    publishedAt: status === "published" ? new Date().toISOString() : null
+    publishedAt
   }
 
   await appendItem("blogs", blogData)
 
-  return { success: true, message: "بلاگ پوسٹ کامیابی سے بنایا گیا۔" }
+  const message = shouldAutoApprove 
+    ? "بلاگ پوسٹ کامیابی سے شائع ہو گیا۔" 
+    : "بلاگ پوسٹ کامیابی سے بنایا گیا۔ منظوری کے لیے انتظار کریں۔"
+  
+  return { success: true, message }
 }
 
 

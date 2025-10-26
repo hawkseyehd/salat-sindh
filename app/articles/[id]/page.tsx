@@ -6,6 +6,10 @@ import { ArrowLeft, Calendar, User, Eye, Heart, Tag } from 'lucide-react'
 import Link from 'next/link'
 import { PageLayout } from '@/components/layout'
 import { listItems } from '@/lib/json-store'
+import { getSession } from '@/lib/auth'
+import { getArticleInteractions } from './actions'
+import { LikeDislikeButton } from '@/components/interactions/like-dislike-button'
+import { CommentsSection } from '@/components/interactions/comments-section'
 
 interface ArticlePageProps {
   params: {
@@ -24,6 +28,9 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   if (!article) {
     notFound()
   }
+
+  const session = await getSession()
+  const interactions = await getArticleInteractions(params.id)
 
   return (
     <PageLayout currentPath="/articles">
@@ -66,13 +73,21 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                   <span>{article.views} دیکھے گئے</span>
                 </div>
               )}
-              {article.likes !== undefined && (
-                <div className="flex items-center gap-2">
-                  <Heart className="h-4 w-4" />
-                  <span>{article.likes} پسند</span>
-                </div>
-              )}
             </div>
+
+            {/* Like/Dislike Buttons */}
+            {session && (
+              <div className="flex justify-center mb-6">
+                <LikeDislikeButton
+                  contentId={params.id}
+                  contentType="article"
+                  userId={session.id}
+                  initialLikes={interactions.likes}
+                  initialDislikes={interactions.dislikes}
+                  initialUserReaction={interactions.userReaction}
+                />
+              </div>
+            )}
 
             {/* Tags */}
             {article.tags && article.tags.length > 0 && (
@@ -135,6 +150,21 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             )}
           </CardContent>
         </Card>
+
+        {/* Comments Section */}
+        {session && (
+          <Card className="bg-gray-800 border-blue-700/30 rounded-2xl shadow-xl mt-8">
+            <CardContent className="p-8">
+              <CommentsSection
+                contentId={params.id}
+                contentType="article"
+                userId={session.id}
+                username={session.username}
+                userAvatar={session.avatar}
+              />
+            </CardContent>
+          </Card>
+        )}
 
         {/* Navigation */}
         <div className="mt-12 flex justify-center">

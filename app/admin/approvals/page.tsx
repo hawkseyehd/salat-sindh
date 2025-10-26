@@ -204,7 +204,7 @@ export default async function AdminApprovalsPage() {
       {/* Pending Content */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center">
+          <CardTitle className="flex items-center gap-2">
             <Clock className="h-5 w-5 mr-2 text-yellow-600" />
             Pending Content Review
           </CardTitle>

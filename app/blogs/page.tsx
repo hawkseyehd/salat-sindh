@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { listItems } from "@/lib/json-store"
@@ -13,9 +14,10 @@ async function getBlogPosts() {
 
 const POSTS_PER_PAGE = 6
 
-export default async function BlogPage({ searchParams }: { searchParams: { page?: string } }) {
+export default async function BlogPage({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
   const allPosts = await getBlogPosts()
-  const currentPage = Number.parseInt(searchParams.page || "1")
+  const resolvedSearchParams = await searchParams
+  const currentPage = Number.parseInt(resolvedSearchParams.page || "1")
   const totalPages = Math.max(1, Math.ceil(allPosts.length / POSTS_PER_PAGE))
 
   const startIndex = (currentPage - 1) * POSTS_PER_PAGE
@@ -50,6 +52,18 @@ export default async function BlogPage({ searchParams }: { searchParams: { page?
                 key={post.id}
                 className="bg-gray-800 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-blue-700/30 flex flex-col"
               >
+                {/* Thumbnail Image */}
+                {(post.thumbnail || post.image) && (
+                  <div className="relative h-48 w-full overflow-hidden rounded-t-2xl">
+                    <Image
+                      src={post.thumbnail || post.image}
+                      alt={post.title}
+                      fill
+                      className="object-cover transition-transform duration-300 hover:scale-105"
+                    />
+                  </div>
+                )}
+                
                 <CardHeader className="pb-4">
                   <CardTitle className="text-3xl font-bold text-red-400 text-right">{post.title}</CardTitle>
                   <CardDescription className="text-blue-300 text-base text-right">{post.date}</CardDescription>

@@ -4,16 +4,25 @@ import path from 'path'
 
 export async function POST(request: NextRequest) {
   try {
+    console.log('Upload API called')
     const formData = await request.formData()
     const file = formData.get('file') as File
     
+    console.log('File received:', file ? `${file.name}, size: ${file.size}, type: ${file.type}` : 'No file')
+    
     if (!file) {
+      console.log('No file uploaded')
       return NextResponse.json({ error: 'No file uploaded' }, { status: 400 })
     }
 
     // Validate file type
     if (!file.type.startsWith('image/')) {
       return NextResponse.json({ error: 'File must be an image' }, { status: 400 })
+    }
+
+    // Validate file size (max 10MB for content images)
+    if (file.size > 10 * 1024 * 1024) {
+      return NextResponse.json({ error: 'File size must be less than 10MB' }, { status: 400 })
     }
 
     // Create uploads directory if it doesn't exist
@@ -35,6 +44,8 @@ export async function POST(request: NextRequest) {
 
     // Return the relative path for storing in JSON
     const relativePath = `/uploads/${fileName}`
+    
+    console.log('File uploaded successfully:', relativePath)
     
     return NextResponse.json({ 
       success: true, 

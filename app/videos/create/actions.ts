@@ -2,7 +2,7 @@
 
 import { appendItem } from "@/lib/json-store"
 import { uploadImagesFromFormData } from "@/lib/file-upload"
-import { canPost, getSession } from "@/lib/auth"
+import { canPost, getSession, isAdmin, isTeam } from "@/lib/auth"
 
 export async function createVideo(prevState: any, formData: FormData) {
   // Check if user can post
@@ -27,8 +27,16 @@ export async function createVideo(prevState: any, formData: FormData) {
   
   // Use current user as author and set default values
   const author = session.name || session.username
-  const status = "draft" // All new content starts as draft
   const featured = false // Featured status managed from dashboard
+  
+  // Check if user is admin or team member for auto-approval
+  const isUserAdmin = await isAdmin()
+  const isUserTeam = await isTeam()
+  const shouldAutoApprove = isUserAdmin || isUserTeam
+  
+  const status = shouldAutoApprove ? "published" : "draft"
+  const approved = shouldAutoApprove
+  const publishedAt = shouldAutoApprove ? new Date().toISOString() : null
 
   if (!title || !videoUrl) {
     return { success: false, message: "عنوان اور ویڈیو URL ضروری ہیں۔" }
@@ -53,15 +61,19 @@ export async function createVideo(prevState: any, formData: FormData) {
     tags: tagsArray,
     status,
     featured,
-    approved: false, // New content needs approval
+    approved, // Auto-approve for admin/team, needs approval for others
     views: 0,
     likes: 0,
-    publishedAt: status === "published" ? new Date().toISOString() : null
+    publishedAt
   }
 
   await appendItem("videos", videoData)
 
-  return { success: true, message: "ویڈیو کامیابی سے بنایا گیا۔" }
+  const message = shouldAutoApprove 
+    ? "ویڈیو کامیابی سے شائع ہو گیا۔" 
+    : "ویڈیو کامیابی سے بنایا گیا۔ منظوری کے لیے انتظار کریں۔"
+  
+  return { success: true, message }
 }
 
 

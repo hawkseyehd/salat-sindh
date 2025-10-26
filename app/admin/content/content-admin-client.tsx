@@ -259,9 +259,21 @@ export function ContentAdminClient({ allContent }: ContentAdminClientProps) {
                     <ContentActions 
                       content={item}
                       contentType={item.type === 'blog' ? 'blogs' : item.type === 'article' ? 'articles' : item.type === 'video' ? 'videos' : item.type === 'podcast' ? 'podcasts' : item.type === 'book' ? 'books' : item.type === 'gallery' ? 'gallery' : item.type === 'education' ? 'education' : item.type === 'library' ? 'library' : 'store'}
-                      onApprove={approveContent}
-                      onReject={rejectContent}
-                      onDelete={deleteContent}
+                      onApprove={async (id: string, type: string) => {
+                        await approveContent(id, type)
+                        // Refresh the page to show updated content
+                        window.location.reload()
+                      }}
+                      onReject={async (id: string, type: string, reason: string) => {
+                        await rejectContent(id, type, reason)
+                        // Refresh the page to show updated content
+                        window.location.reload()
+                      }}
+                      onDelete={async (id: string, type: string) => {
+                        await deleteContent(id, type)
+                        // Refresh the page to show updated content
+                        window.location.reload()
+                      }}
                     />
                   </TableCell>
                 </TableRow>

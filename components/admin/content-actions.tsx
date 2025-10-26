@@ -20,13 +20,14 @@ interface ContentActionsProps {
   content: {
     id: string
     title: string
+    type: string
     approved?: boolean
     rejected?: boolean
   }
   contentType: 'blogs' | 'articles' | 'videos' | 'books' | 'podcasts' | 'gallery' | 'education' | 'library' | 'store'
-  onApprove: (id: string) => Promise<void>
-  onReject: (id: string, reason: string) => Promise<void>
-  onDelete: (id: string) => Promise<void>
+  onApprove: (id: string, type: string) => Promise<void>
+  onReject: (id: string, type: string, reason: string) => Promise<void>
+  onDelete: (id: string, type: string) => Promise<void>
 }
 
 export function ContentActions({ content, contentType, onApprove, onReject, onDelete }: ContentActionsProps) {
@@ -38,7 +39,7 @@ export function ContentActions({ content, contentType, onApprove, onReject, onDe
   const handleApprove = async () => {
     setIsLoading(true)
     try {
-      await onApprove(content.id)
+      await onApprove(content.id, content.type)
     } catch (error) {
       console.error('Error approving content:', error)
     } finally {
@@ -51,7 +52,7 @@ export function ContentActions({ content, contentType, onApprove, onReject, onDe
     
     setIsLoading(true)
     try {
-      await onReject(content.id, rejectionReason)
+      await onReject(content.id, content.type, rejectionReason)
       setIsRejectDialogOpen(false)
       setRejectionReason('')
     } catch (error) {
@@ -64,7 +65,7 @@ export function ContentActions({ content, contentType, onApprove, onReject, onDe
   const handleDelete = async () => {
     setIsLoading(true)
     try {
-      await onDelete(content.id)
+      await onDelete(content.id, content.type)
       setIsDeleteDialogOpen(false)
     } catch (error) {
       console.error('Error deleting content:', error)
