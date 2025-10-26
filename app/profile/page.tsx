@@ -12,7 +12,7 @@ export default async function ProfilePage() {
 
   // Fetch updated user data with avatar
   const users = await readJson("users", []);
-  const userData = users.find((user: any) => user.id === session.id);
+  const userData = users.find((user: any) => user.id === session.id) as any;
   
   if (userData) {
     // Update session with latest user data including avatar

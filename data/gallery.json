@@ -1,4 +1,41 @@
 [
+  {
+    "title": "Test image",
+    "category": "test Image",
+    "image": "/uploads/1761445449730-3ecbe7.png",
+    "tags": [],
+    "status": "published",
+    "approved": true,
+    "views": 0,
+    "likes": 0,
+    "publishedAt": "2025-10-26T02:24:09.715Z",
+    "id": "1761445449745-1ocg93",
+    "createdAt": "2025-10-26T02:24:09.745Z"
+  },
+  {
+    "title": "Test",
+    "category": "",
+    "image": "/uploads/1761445474116-2iy95b.png",
+    "tags": [],
+    "status": "published",
+    "approved": true,
+    "views": 0,
+    "likes": 0,
+    "publishedAt": "2025-10-26T02:24:34.114Z",
+    "id": "1761445474124-eksi78",
+    "createdAt": "2025-10-26T02:24:34.124Z"
+  },
+  {
+    "title": "test 2",
+    "category": "",
+    "image": "/uploads/1761445648782-xv70mi.png",
+    "tags": [],
+    "status": "published",
+    "approved": true,
+    "views": 0,
+    "likes": 0,
+    "publishedAt": "2025-10-26T02:27:28.777Z",
+    "id": "1761445648787-c4bfzs",
+    "createdAt": "2025-10-26T02:27:28.787Z"
+  }
 ]
-
-

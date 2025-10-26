@@ -249,7 +249,7 @@ export default async function HomePage() {
                         <span className="text-sm text-gray-400">
                           {item.author || 'نامعلوم مصنف'}
                         </span>
-                        <Link href={`/${contentType.key}/${item.id}`}>
+                        <Link href={contentType.key && item.id ? `/${contentType.key}/${item.id}` : '#'}>
                           <Button 
                             variant="outline" 
                             size="sm"
@@ -272,7 +272,7 @@ export default async function HomePage() {
             
             {/* View More Button */}
             <div className="text-center mt-12">
-              <Link href={contentType.href}>
+              <Link href={contentType.href || '#'}>
                 <Button 
                   className={`${contentType.bgColor} ${contentType.color} border ${contentType.borderColor} hover:opacity-80 transition-all duration-300 transform hover:scale-105 px-8 py-3 text-lg font-semibold`}
                 >

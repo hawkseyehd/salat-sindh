@@ -17,11 +17,12 @@ export async function createArticle(prevState: any, formData: FormData) {
     return { success: false, message: "آپ لاگ ان نہیں ہیں۔" }
   }
 
-  const title = (formData.get("title") as string)?.trim()
-  const excerpt = (formData.get("excerpt") as string)?.trim()
-  const content = (formData.get("content") as string)?.trim()
-  const category = (formData.get("category") as string)?.trim()
-  const tags = (formData.get("tags") as string)?.trim()
+  // Handle both prefixed and non-prefixed field names
+  const title = (formData.get("1_title") || formData.get("title")) as string
+  const excerpt = (formData.get("1_excerpt") || formData.get("excerpt")) as string
+  const content = (formData.get("1_content") || formData.get("content")) as string
+  const category = (formData.get("1_category") || formData.get("category")) as string
+  const tags = (formData.get("1_tags") || formData.get("tags")) as string
   
   // Use current user as author and set default values
   const author = session.name || session.username
@@ -36,16 +37,41 @@ export async function createArticle(prevState: any, formData: FormData) {
   const approved = shouldAutoApprove
   const publishedAt = shouldAutoApprove ? new Date().toISOString() : null
 
-  if (!title || !content) {
+  const trimmedTitle = title?.trim()
+  const trimmedExcerpt = excerpt?.trim()
+  const trimmedContent = content?.trim()
+  const trimmedCategory = category?.trim()
+  const trimmedTags = tags?.trim()
+
+  if (!trimmedTitle || !trimmedContent) {
     return { success: false, message: "عنوان اور مواد ضروری ہیں۔" }
   }
 
   // Upload image if provided
   let image = ''
   
+  // Debug: Check what files are in formData
+  console.log('=== ARTICLE CREATION DEBUG ===')
+  console.log('FormData entries:')
+  for (const [key, value] of formData.entries()) {
+    if (value instanceof File) {
+      console.log(`${key}: File - ${value.name}, size: ${value.size}, type: ${value.type}`)
+    } else {
+      console.log(`${key}: ${value}`)
+    }
+  }
+  console.log('=== END FORMDATA DEBUG ===')
+  
   try {
-    const uploadedImages = await uploadImagesFromFormData(formData, ['image'])
-    image = uploadedImages.image || ''
+    // Check for both prefixed and non-prefixed field names
+    const imageField = formData.has('1_image') ? '1_image' : 'image'
+    
+    console.log('Using image field:', imageField)
+    
+    const uploadedImages = await uploadImagesFromFormData(formData, [imageField])
+    
+    // Map the results back to the expected field names
+    image = uploadedImages[imageField] || ''
     
     // Log upload results for debugging
     console.log('Article upload results:', { image, uploadedImages })
@@ -55,15 +81,15 @@ export async function createArticle(prevState: any, formData: FormData) {
   }
 
   // Process tags
-  const tagsArray = tags ? tags.split(',').map(tag => tag.trim()).filter(tag => tag) : []
+  const tagsArray = trimmedTags ? trimmedTags.split(',').map((tag: string) => tag.trim()).filter((tag: string) => tag) : []
 
   const articleData = {
-    title,
-    excerpt,
-    content,
+    title: trimmedTitle,
+    excerpt: trimmedExcerpt,
+    content: trimmedContent,
     author,
     image,
-    category,
+    category: trimmedCategory,
     tags: tagsArray,
     status,
     featured,

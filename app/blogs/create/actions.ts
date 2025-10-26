@@ -17,11 +17,12 @@ export async function createBlogPost(prevState: any, formData: FormData) {
     return { success: false, message: "آپ لاگ ان نہیں ہیں۔" }
   }
 
-  const title = (formData.get("title") as string)?.trim()
-  const excerpt = (formData.get("excerpt") as string)?.trim()
-  const content = (formData.get("content") as string)?.trim()
-  const category = (formData.get("category") as string)?.trim()
-  const tags = (formData.get("tags") as string)?.trim()
+  // Handle both prefixed and non-prefixed field names
+  const title = (formData.get("1_title") || formData.get("title")) as string
+  const excerpt = (formData.get("1_excerpt") || formData.get("excerpt")) as string
+  const content = (formData.get("1_content") || formData.get("content")) as string
+  const category = (formData.get("1_category") || formData.get("category")) as string
+  const tags = (formData.get("1_tags") || formData.get("tags")) as string
   
   // Use current user as author and set default values
   const author = session.name || session.username
@@ -36,7 +37,13 @@ export async function createBlogPost(prevState: any, formData: FormData) {
   const approved = shouldAutoApprove
   const publishedAt = shouldAutoApprove ? new Date().toISOString() : null
 
-  if (!title || !content) {
+  const trimmedTitle = title?.trim()
+  const trimmedExcerpt = excerpt?.trim()
+  const trimmedContent = content?.trim()
+  const trimmedCategory = category?.trim()
+  const trimmedTags = tags?.trim()
+
+  if (!trimmedTitle || !trimmedContent) {
     return { success: false, message: "عنوان اور مواد ضروری ہیں۔" }
   }
 
@@ -45,6 +52,7 @@ export async function createBlogPost(prevState: any, formData: FormData) {
   let thumbnail = ''
   
   // Debug: Check what files are in formData
+  console.log('=== BLOG CREATION DEBUG ===')
   console.log('FormData entries:')
   for (const [key, value] of formData.entries()) {
     if (value instanceof File) {
@@ -53,11 +61,21 @@ export async function createBlogPost(prevState: any, formData: FormData) {
       console.log(`${key}: ${value}`)
     }
   }
+  console.log('=== END FORMDATA DEBUG ===')
   
   try {
-    const uploadedImages = await uploadImagesFromFormData(formData, ['image', 'thumbnail'])
-    image = uploadedImages.image || ''
-    thumbnail = uploadedImages.thumbnail || ''
+    // Check for both prefixed and non-prefixed field names
+    const imageField = formData.has('1_image') ? '1_image' : 'image'
+    const thumbnailField = formData.has('1_thumbnail') ? '1_thumbnail' : 'thumbnail'
+    
+    console.log('Using image field:', imageField)
+    console.log('Using thumbnail field:', thumbnailField)
+    
+    const uploadedImages = await uploadImagesFromFormData(formData, [imageField, thumbnailField])
+    
+    // Map the results back to the expected field names
+    image = uploadedImages[imageField] || ''
+    thumbnail = uploadedImages[thumbnailField] || ''
     
     // Log upload results for debugging
     console.log('Blog upload results:', { image, thumbnail, uploadedImages })
@@ -67,16 +85,16 @@ export async function createBlogPost(prevState: any, formData: FormData) {
   }
 
   // Process tags
-  const tagsArray = tags ? tags.split(',').map(tag => tag.trim()).filter(tag => tag) : []
+  const tagsArray = trimmedTags ? trimmedTags.split(',').map((tag: string) => tag.trim()).filter((tag: string) => tag) : []
 
   const blogData = {
-    title,
-    excerpt,
-    content,
+    title: trimmedTitle,
+    excerpt: trimmedExcerpt,
+    content: trimmedContent,
     author,
     image,
     thumbnail,
-    category,
+    category: trimmedCategory,
     tags: tagsArray,
     status,
     featured,

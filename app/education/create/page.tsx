@@ -42,7 +42,7 @@ export default function CreateCoursePage() {
             <CardTitle className="text-red-400">تفصیلات درج کریں</CardTitle>
           </CardHeader>
           <CardContent>
-            <form action={formAction} className="grid grid-cols-1 md:grid-cols-2 gap-6" dir="rtl">
+            <form action={formAction} encType="multipart/form-data" className="grid grid-cols-1 md:grid-cols-2 gap-6" dir="rtl">
               <div>
                 <label htmlFor="title" className="block mb-2">عنوان</label>
                 <Input id="title" name="title" className="bg-gray-700 border-blue-600" required />

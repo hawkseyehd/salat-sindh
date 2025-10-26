@@ -169,7 +169,7 @@ export default async function ProductPage({ params }: StorePageProps) {
                 {/* Contact Button */}
                 {product.phoneNumber && (
                   <div className="flex justify-center">
-                    <Link href={`tel:${product.phoneNumber}`} prefetch={false}>
+                    <Link href={product.phoneNumber ? `tel:${product.phoneNumber}` : '#'} prefetch={false}>
                       <Button 
                         className="bg-green-700 hover:bg-green-800 text-white font-semibold py-3 px-8 rounded-full transition-colors duration-300 flex items-center gap-2 transform hover:scale-105"
                       >

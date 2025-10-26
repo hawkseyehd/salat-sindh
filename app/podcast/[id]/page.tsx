@@ -166,7 +166,7 @@ export default async function PodcastPage({ params }: PodcastPageProps) {
             {/* Download Button */}
             {podcast.src && (
               <div className="mt-8 flex justify-center">
-                <Link href={podcast.src} download prefetch={false}>
+                <Link href={podcast.src || '#'} download prefetch={false}>
                   <Button 
                     className="bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 px-8 rounded-full transition-colors duration-300 flex items-center gap-2 transform hover:scale-105"
                   >

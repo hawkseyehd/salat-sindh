@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { User, FileText, Image, Video, BookOpen, Mic, ShoppingBag, Palette, GraduationCap, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { SessionUser } from "@/lib/auth";
+import { safeDynamicHref } from "@/lib/safe-href";
 import { AvatarUpload } from "@/components/ui/avatar-upload";
 
 interface UserPost {
@@ -237,7 +238,7 @@ export function ProfileClient({ user }: ProfileClientProps) {
                             </div>
                           </div>
                           <div className="flex items-center gap-2">
-                            <Link href={`/${post.type}s/edit/${post.id}`}>
+                            <Link href={safeDynamicHref(['', post.type + 's', 'edit', post.id])}>
                               <Button size="sm" variant="outline" className="border-blue-700/30 text-blue-200 hover:bg-blue-800/20">
                                 ترمیم
                               </Button>

@@ -1,40 +1,21 @@
 [
   {
-    "title": "New Article",
-    "excerpt": "New Article",
-    "content": "New Article",
+    "title": "Image UPload testing",
+    "excerpt": "Image UPloa d testing",
+    "content": "Image UPload testing",
     "author": "Muhammad Ziauddin",
-    "image": "",
-    "category": "other",
-    "tags": [
-      "tag4"
-    ],
-    "status": "draft",
-    "featured": false,
-    "approved": false,
-    "views": 0,
-    "likes": 0,
-    "publishedAt": null,
-    "id": "1761440861133-ires6j",
-    "createdAt": "2025-10-26T01:07:41.133Z"
-  },
-  {
-    "title": "New Article for test",
-    "excerpt": "New Article for test",
-    "content": "New Article for test",
-    "author": "Muhammad Ziauddin",
-    "image": "",
-    "category": "opinion",
-    "tags": [
-      "tag6"
-    ],
+    "image": "/uploads/1761445338789-iyj1na.png",
+    "category": "technology",
+    "tags": [],
     "status": "published",
     "featured": false,
     "approved": true,
     "views": 0,
     "likes": 0,
-    "publishedAt": "2025-10-26T01:20:07.062Z",
-    "id": "1761441608394-mqqkmf",
-    "createdAt": "2025-10-26T01:20:08.394Z"
+    "publishedAt": "2025-10-26T01:56:10.828Z",
+    "id": "1761443771842-ijojr1",
+    "createdAt": "2025-10-26T01:56:11.842Z",
+    "thumbnail": "",
+    "updatedAt": "2025-10-26T02:22:18.795Z"
   }
 ]

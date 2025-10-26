@@ -38,7 +38,7 @@ export default async function GalleryPage() {
               <Card className="bg-gray-800 rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-blue-700/30 flex flex-col cursor-pointer">
                 <CardContent className="p-0">
                   <Image
-                    src={image.imageUrl || "/placeholder.svg"}
+                    src={image.image || "/placeholder.svg"}
                     alt={image.title}
                     width={400}
                     height={300}

@@ -40,7 +40,7 @@ export default async function ArtPage() {
             >
               <CardContent className="p-0">
                 <Image
-                  src={art.imageUrl || "/placeholder.svg"}
+                  src={art.image || "/placeholder.svg"}
                   alt={art.title}
                   width={400}
                   height={300}

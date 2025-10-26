@@ -51,7 +51,7 @@ export default async function BooksPage() {
                       {"مزید پڑھیں"}
                     </Button>
                   </Link>
-                  <Link href={book.cover} download prefetch={false}>
+                  <Link href={book.cover || '#'} download prefetch={false}>
                     <Button className="w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 px-6 rounded-full transition-colors duration-300 flex items-center justify-center gap-2 transform hover:scale-105">
                       <BookIcon className="h-6 w-6" />
                       {"کتاب ڈاؤن لوڈ کریں"}

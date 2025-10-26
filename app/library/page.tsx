@@ -46,7 +46,7 @@ export default async function LibraryPage() {
                       {"مزید پڑھیں"}
                     </Button>
                   </Link>
-                  <Link href={resource.downloadUrl} download prefetch={false}>
+                  <Link href={resource.downloadUrl || '#'} download prefetch={false}>
                     <Button className="w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 px-6 rounded-full transition-colors duration-300 flex items-center justify-center gap-2 transform hover:scale-105">
                       <DownloadIcon className="h-6 w-6" />
                       {"ڈاؤن لوڈ کریں"}

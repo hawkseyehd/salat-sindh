@@ -1,5 +1,5 @@
 "use client"
-import { useActionState } from "react"
+import { useActionState, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -9,10 +9,55 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { createBlogPost } from "./actions"
 import { ClientPageLayout } from "@/components/layout/page-layout-client"
 import { useSession } from "@/hooks/use-session"
+import { DebugUploadTest } from "@/components/debug-upload-test"
 
 export default function CreateBlogPage() {
   const [state, formAction] = useActionState(createBlogPost, null)
   const { session, loading } = useSession()
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [formState, setFormState] = useState<any>(null)
+
+  const handleSubmit = async (formData: FormData) => {
+    setIsSubmitting(true)
+    setFormState(null)
+    
+    try {
+      // Debug: Check what's in the form data
+      console.log('=== FORM SUBMISSION DEBUG ===')
+      console.log('FormData entries:')
+      for (const [key, value] of formData.entries()) {
+        if (value instanceof File) {
+          console.log(`${key}: File - ${value.name}, size: ${value.size}, type: ${value.type}`)
+        } else {
+          console.log(`${key}: ${value}`)
+        }
+      }
+      console.log('=== END FORM SUBMISSION DEBUG ===')
+      
+      const response = await fetch('/api/blogs/create', {
+        method: 'POST',
+        body: formData
+      })
+      
+      const result = await response.json()
+      console.log('Blog creation result:', result)
+      
+      if (result.success) {
+        setFormState({ success: true, message: result.message })
+      } else {
+        setFormState({ success: false, message: result.error || 'Form submission failed' })
+      }
+      
+      return result
+    } catch (error) {
+      console.error('Form submission error:', error)
+      const errorResult = { success: false, message: 'Form submission failed' }
+      setFormState(errorResult)
+      return errorResult
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
   
   if (loading) {
     return (
@@ -33,6 +78,11 @@ export default function CreateBlogPage() {
       displayName={displayName}
     >
       <div className="py-16 md:py-24 flex items-center justify-center">
+        {/* Debug Upload Test */}
+        <div className="w-full max-w-4xl mx-auto mb-8">
+          <DebugUploadTest />
+        </div>
+        
         <Card className="w-full max-w-3xl mx-auto bg-gray-800 rounded-2xl shadow-xl border border-blue-700/30">
           <CardHeader className="pb-6 text-center">
             <CardTitle className="text-4xl font-extrabold text-red-400">
@@ -40,7 +90,7 @@ export default function CreateBlogPage() {
             </CardTitle>
           </CardHeader>
           <CardContent className="p-6">
-            <form action={formAction} className="space-y-6">
+            <form action={handleSubmit} encType="multipart/form-data" className="space-y-6">
               <div>
                 <Label htmlFor="title" className="block text-lg font-medium text-blue-200 mb-2 text-right">
                   {"عنوان"} {/* Title */}
@@ -143,13 +193,13 @@ export default function CreateBlogPage() {
               <Button
                 type="submit"
                 className="w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 px-6 rounded-full transition-colors duration-300 transform hover:scale-105 text-xl"
-                disabled={state?.success === true} // Disable after successful submission
+                disabled={isSubmitting || formState?.success === true} // Disable during submission or after success
               >
-                {state?.success === true ? "کامیاب!" : "پوسٹ بنائیں"} {/* Success! / Create Post */}
+                {isSubmitting ? "شائع ہو رہا ہے..." : formState?.success === true ? "کامیاب!" : "پوسٹ بنائیں"} {/* Publishing... / Success! / Create Post */}
               </Button>
-              {state && (
-                <p className={`mt-4 text-center text-lg ${state.success ? "text-green-400" : "text-red-400"}`}>
-                  {state.message}
+              {formState && (
+                <p className={`mt-4 text-center text-lg ${formState.success ? "text-green-400" : "text-red-400"}`}>
+                  {formState.message}
                 </p>
               )}
             </form>
