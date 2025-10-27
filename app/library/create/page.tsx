@@ -3,6 +3,7 @@ import { useActionState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ClientPageLayout } from "@/components/layout/page-layout-client"
 import { createLibraryItem } from "./actions"
@@ -42,7 +43,7 @@ export default function CreateLibraryItemPage() {
             <CardTitle className="text-red-400">تفصیلات درج کریں</CardTitle>
           </CardHeader>
           <CardContent>
-            <form action={formAction} encType="multipart/form-data" className="grid grid-cols-1 md:grid-cols-2 gap-6" dir="rtl">
+            <form action={formAction} className="grid grid-cols-1 md:grid-cols-2 gap-6" dir="rtl">
               <div>
                 <label htmlFor="title" className="block mb-2">عنوان</label>
                 <Input id="title" name="title" className="bg-gray-700 border-blue-600" required />
@@ -52,8 +53,23 @@ export default function CreateLibraryItemPage() {
                 <Input id="author" name="author" className="bg-gray-700 border-blue-600" />
               </div>
               <div className="md:col-span-2">
-                <label htmlFor="link" className="block mb-2">لنک</label>
-                <Input id="link" name="link" className="bg-gray-700 border-blue-600" />
+                <label htmlFor="description" className="block mb-2">تفصیل</label>
+                <Textarea 
+                  id="description" 
+                  name="description" 
+                  className="bg-gray-700 border-blue-600 text-blue-100"
+                  rows={4}
+                />
+              </div>
+              <div className="md:col-span-2">
+                <label htmlFor="pdfFile" className="block mb-2">PDF فائل</label>
+                <Input 
+                  id="pdfFile" 
+                  name="pdfFile" 
+                  type="file"
+                  accept="application/pdf"
+                  className="w-full h-auto bg-transparent border-0 text-blue-100 placeholder:text-blue-300/70 focus:ring-0 text-right file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 file:cursor-pointer" 
+                />
               </div>
               <div className="md:col-span-2 flex gap-3 items-center">
                 <Button type="submit" className="bg-blue-700 hover:bg-blue-800">محفوظ کریں</Button>

@@ -45,7 +45,7 @@ export default function CreatePodcastPage() {
             <CardTitle className="text-red-400">تفصیلات درج کریں</CardTitle>
           </CardHeader>
           <CardContent>
-            <form action={formAction} encType="multipart/form-data" className="space-y-6" dir="rtl">
+            <form action={formAction} className="space-y-6" dir="rtl">
               <div>
                 <Label htmlFor="title" className="block text-lg font-medium text-blue-200 mb-2 text-right">
                   {"عنوان"} {/* Title */}
@@ -72,15 +72,30 @@ export default function CreatePodcastPage() {
               </div>
 
               <div>
-                <Label htmlFor="audioUrl" className="block text-lg font-medium text-blue-200 mb-2 text-right">
-                  {"آڈیو URL"} {/* Audio URL */}
+                <Label htmlFor="mediaType" className="block text-lg font-medium text-blue-200 mb-2 text-right">
+                  {"میڈیا کی قسم"} {/* Media Type */}
+                </Label>
+                <Select name="mediaType" defaultValue="audio">
+                  <SelectTrigger className="w-full bg-gray-700 border-blue-600 text-blue-100 focus:border-red-400 focus:ring-red-400">
+                    <SelectValue placeholder="میڈیا کی قسم منتخب کریں" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="audio">آڈیو</SelectItem>
+                    <SelectItem value="video">ویڈیو</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Label htmlFor="mediaUrl" className="block text-lg font-medium text-blue-200 mb-2 text-right">
+                  {"میڈیا URL"} {/* Media URL */}
                 </Label>
                 <Input 
-                  id="audioUrl" 
-                  name="audioUrl" 
+                  id="mediaUrl" 
+                  name="mediaUrl" 
                   type="url"
                   className="w-full bg-gray-700 border-blue-600 text-blue-100 placeholder:text-blue-300/70 focus:border-red-400 focus:ring-red-400 text-right"
-                  placeholder="آڈیو فائل کا URL"
+                  placeholder="آڈیو یا ویڈیو کا URL"
                   required
                 />
               </div>

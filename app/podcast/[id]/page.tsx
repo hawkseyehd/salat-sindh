@@ -6,11 +6,13 @@ import { ArrowLeft, Calendar, Mic, Play, Download, Tag } from 'lucide-react'
 import Link from 'next/link'
 import { PageLayout } from '@/components/layout'
 import { listItems } from '@/lib/json-store'
+import { YouTubePlayer } from '@/components/youtube-player'
+import { AudioPlayer } from '@/components/audio-player'
 
 interface PodcastPageProps {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
 async function getPodcast(id: string) {
@@ -19,7 +21,8 @@ async function getPodcast(id: string) {
 }
 
 export default async function PodcastPage({ params }: PodcastPageProps) {
-  const podcast = await getPodcast(params.id)
+  const { id } = await params
+  const podcast = await getPodcast(id)
 
   if (!podcast) {
     notFound()
@@ -52,7 +55,7 @@ export default async function PodcastPage({ params }: PodcastPageProps) {
             <div className="flex flex-wrap justify-center items-center gap-4 text-blue-300 mb-6">
               <div className="flex items-center gap-2">
                 <Mic className="h-4 w-4" />
-                <span>قسم: {podcast.type === "audio" ? "آڈیو" : "ویڈیو"}</span>
+                <span>قسم: {podcast.mediaType === "audio" ? "آڈیو" : "ویڈیو"}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Calendar className="h-4 w-4" />
@@ -100,27 +103,16 @@ export default async function PodcastPage({ params }: PodcastPageProps) {
           <CardContent className="p-8 md:p-12">
             {/* Media Player */}
             <div className="mb-8">
-              {podcast.type === "video" ? (
-                <div className="relative w-full rounded-xl overflow-hidden shadow-2xl" style={{ paddingBottom: "56.25%" }}>
-                  <iframe
-                    className="absolute top-0 left-0 w-full h-full"
-                    src={podcast.embedUrl}
-                    title={podcast.title}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                  />
-                </div>
+              {podcast.mediaType === "video" ? (
+                <YouTubePlayer 
+                  url={podcast.mediaUrl}
+                  title={podcast.title}
+                />
               ) : (
-                <div className="bg-gray-700/50 rounded-xl p-6 border border-blue-600/30">
-                  <div className="flex items-center gap-3 mb-4">
-                    <Play className="h-6 w-6 text-red-400" />
-                    <h3 className="text-xl font-semibold text-red-400">آڈیو پوڈ کاسٹ</h3>
-                  </div>
-                  <audio controls className="w-full rounded-md bg-gray-800 p-2">
-                    <source src={podcast.src} type="audio/mpeg" />
-                    آپ کا براؤزر آڈیو عنصر کو سپورٹ نہیں کرتا۔
-                  </audio>
-                </div>
+                <AudioPlayer 
+                  src={podcast.mediaUrl}
+                  title={podcast.title}
+                />
               )}
             </div>
 
@@ -171,7 +163,7 @@ export default async function PodcastPage({ params }: PodcastPageProps) {
                     className="bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 px-8 rounded-full transition-colors duration-300 flex items-center gap-2 transform hover:scale-105"
                   >
                     <Download className="h-5 w-5" />
-                    {podcast.type === "audio" ? "آڈیو ڈاؤن لوڈ کریں" : "ویڈیو ڈاؤن لوڈ کریں"}
+                    {podcast.mediaType === "audio" ? "آڈیو ڈاؤن لوڈ کریں" : "ویڈیو ڈاؤن لوڈ کریں"}
                   </Button>
                 </Link>
               </div>

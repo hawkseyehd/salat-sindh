@@ -37,7 +37,7 @@ export default function CreateGalleryPage() {
             </CardTitle>
           </CardHeader>
           <CardContent className="p-6">
-            <form action={formAction} encType="multipart/form-data" className="space-y-6">
+            <form action={formAction} className="space-y-6">
               <div>
                 <label htmlFor="title" className="block text-lg font-medium text-blue-200 mb-2 text-right">
                   {"عنوان"} {/* Title */}

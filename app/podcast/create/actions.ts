@@ -19,12 +19,13 @@ export async function createPodcast(prevState: any, formData: FormData) {
 
   const title = (formData.get("title") as string)?.trim()
   const description = (formData.get("description") as string)?.trim()
-  const audioUrl = (formData.get("audioUrl") as string)?.trim()
+  const mediaUrl = (formData.get("mediaUrl") as string)?.trim()
   const host = (formData.get("host") as string)?.trim()
   const category = (formData.get("category") as string)?.trim()
   const duration = (formData.get("duration") as string)?.trim()
   const episode = (formData.get("episode") as string)?.trim()
   const tags = (formData.get("tags") as string)?.trim()
+  const mediaType = (formData.get("mediaType") as string)?.trim() || 'audio'
   
   // Use current user as author and set default values
   const author = session.name || session.username
@@ -39,8 +40,8 @@ export async function createPodcast(prevState: any, formData: FormData) {
   const approved = shouldAutoApprove
   const publishedAt = shouldAutoApprove ? new Date().toISOString() : null
 
-  if (!title || !audioUrl) {
-    return { success: false, message: "عنوان اور آڈیو URL ضروری ہیں۔" }
+  if (!title || !mediaUrl) {
+    return { success: false, message: "عنوان اور میڈیا URL ضروری ہیں۔" }
   }
 
   // Upload thumbnail if provided
@@ -53,7 +54,8 @@ export async function createPodcast(prevState: any, formData: FormData) {
   const podcastData = {
     title,
     description,
-    audioUrl,
+    mediaUrl,
+    mediaType: mediaType as 'audio' | 'video',
     thumbnail,
     host,
     author,

@@ -44,7 +44,7 @@ export default function CreateStoreItemPage() {
             <CardTitle className="text-red-400">تفصیلات درج کریں</CardTitle>
           </CardHeader>
           <CardContent>
-            <form action={formAction} encType="multipart/form-data" className="grid grid-cols-1 md:grid-cols-2 gap-6" dir="rtl">
+            <form action={formAction} className="grid grid-cols-1 md:grid-cols-2 gap-6" dir="rtl">
               <div className="md:col-span-1">
                 <label htmlFor="name" className="block mb-2">نام</label>
                 <Input id="name" name="name" className="bg-gray-700 border-blue-600" required />

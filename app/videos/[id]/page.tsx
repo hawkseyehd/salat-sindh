@@ -6,11 +6,12 @@ import { ArrowLeft, Calendar, Eye, Heart, Tag, Play } from 'lucide-react'
 import Link from 'next/link'
 import { PageLayout } from '@/components/layout'
 import { listItems } from '@/lib/json-store'
+import { YouTubePlayer } from '@/components/youtube-player'
 
 interface VideoPageProps {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
 async function getVideo(id: string) {
@@ -19,7 +20,8 @@ async function getVideo(id: string) {
 }
 
 export default async function VideoPage({ params }: VideoPageProps) {
-  const video = await getVideo(params.id)
+  const { id } = await params
+  const video = await getVideo(id)
 
   if (!video) {
     notFound()
@@ -103,15 +105,10 @@ export default async function VideoPage({ params }: VideoPageProps) {
           <CardContent className="p-8 md:p-12">
             {/* Video Player */}
             <div className="mb-8">
-              <div className="relative w-full rounded-xl overflow-hidden shadow-2xl" style={{ paddingBottom: "56.25%" }}>
-                <iframe
-                  className="absolute top-0 left-0 w-full h-full"
-                  src={video.embedUrl}
-                  title={video.title}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                />
-              </div>
+              <YouTubePlayer 
+                url={video.videoUrl}
+                title={video.title}
+              />
             </div>
 
             {/* Video Description */}

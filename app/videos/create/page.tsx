@@ -45,7 +45,7 @@ export default function CreateVideoPage() {
             <CardTitle className="text-red-400">تفصیلات درج کریں</CardTitle>
           </CardHeader>
           <CardContent>
-            <form action={formAction} encType="multipart/form-data" className="space-y-6" dir="rtl">
+            <form action={formAction} className="space-y-6" dir="rtl">
               <div>
                 <Label htmlFor="title" className="block text-lg font-medium text-blue-200 mb-2 text-right">
                   {"عنوان"} {/* Title */}

@@ -1,3 +1,7 @@
+/**
+ * Upload file to Cloudinary
+ * Supports images, PDFs, and other file types
+ */
 export async function uploadImage(file: File): Promise<string | null> {
   try {
     // Validate file before upload
@@ -6,11 +10,7 @@ export async function uploadImage(file: File): Promise<string | null> {
       return null
     }
 
-    if (!file.type.startsWith('image/')) {
-      console.error('File is not an image:', file.type)
-      return null
-    }
-
+    // Validate file size (max 10MB)
     if (file.size > 10 * 1024 * 1024) {
       console.error('File size too large:', file.size)
       return null
@@ -18,10 +18,10 @@ export async function uploadImage(file: File): Promise<string | null> {
 
     // Check if we're in a server context
     if (typeof window === 'undefined') {
-      // Server-side: use direct file handling
-      return await uploadImageServer(file)
+      // Server-side: use Cloudinary
+      return await uploadFileToCloudinaryServer(file)
     } else {
-      // Client-side: use fetch
+      // Client-side: use fetch to API route
       const formData = new FormData()
       formData.append('file', file)
 
@@ -46,40 +46,38 @@ export async function uploadImage(file: File): Promise<string | null> {
       return result.filePath
     }
   } catch (error) {
-    console.error('Image upload error:', error)
+    console.error('File upload error:', error)
     return null
   }
 }
 
-async function uploadImageServer(file: File): Promise<string | null> {
+/**
+ * Server-side file upload to Cloudinary
+ */
+async function uploadFileToCloudinaryServer(file: File): Promise<string | null> {
   try {
-    const { promises: fs } = await import('fs')
-    const path = await import('path')
+    const { uploadFileBuffer } = await import('@/lib/cloudinary')
     
-    // Create uploads directory if it doesn't exist
-    const uploadsDir = path.join(process.cwd(), 'public', 'uploads')
-    await fs.mkdir(uploadsDir, { recursive: true })
+    // Determine resource type based on file type
+    let resourceType: 'image' | 'video' | 'raw' = 'image'
+    if (file.type.startsWith('video/')) {
+      resourceType = 'video'
+    } else if (file.type === 'application/pdf' || file.type.includes('document')) {
+      resourceType = 'raw'
+    }
 
-    // Generate unique filename
-    const timestamp = Date.now()
-    const randomString = Math.random().toString(36).substring(2, 8)
-    const fileExtension = path.extname(file.name)
-    const fileName = `${timestamp}-${randomString}${fileExtension}`
+    console.log('Uploading to Cloudinary:', file.name, 'Type:', resourceType)
     
-    // Save file
-    const filePath = path.join(uploadsDir, fileName)
-    const bytes = await file.arrayBuffer()
-    const buffer = Buffer.from(bytes)
-    
-    await fs.writeFile(filePath, buffer)
+    // Upload to Cloudinary
+    const url = await uploadFileBuffer(file, {
+      folder: 'salat-sindh',
+      resource_type: resourceType,
+    })
 
-    // Return the relative path for storing in JSON
-    const relativePath = `/uploads/${fileName}`
-    console.log('Server upload successful:', relativePath)
-    
-    return relativePath
+    console.log('Cloudinary upload successful:', url)
+    return url
   } catch (error) {
-    console.error('Server upload error:', error)
+    console.error('Cloudinary upload error:', error)
     return null
   }
 }

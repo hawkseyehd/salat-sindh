@@ -90,7 +90,7 @@ export default function CreateArticlePage() {
             </CardTitle>
           </CardHeader>
           <CardContent className="p-6">
-            <form action={handleSubmit} encType="multipart/form-data" className="space-y-6">
+            <form action={handleSubmit} className="space-y-6">
               <div>
                 <Label htmlFor="title" className="block text-lg font-medium text-blue-200 mb-2 text-right">
                   {"عنوان"} {/* Title */}

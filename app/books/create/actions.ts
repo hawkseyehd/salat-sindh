@@ -1,7 +1,6 @@
 "use server"
 
 import { appendItem } from "@/lib/json-store"
-import { uploadImagesFromFormData } from "@/lib/file-upload"
 import { canPost, getSession, isAdmin, isTeam } from "@/lib/auth"
 
 export async function createBook(prevState: any, formData: FormData) {
@@ -21,10 +20,11 @@ export async function createBook(prevState: any, formData: FormData) {
   const author = (formData.get("author") as string)?.trim()
   const description = (formData.get("description") as string)?.trim()
   const category = (formData.get("category") as string)?.trim()
+  const downloadLink = (formData.get("downloadLink") as string)?.trim()
   const tags = (formData.get("tags") as string)?.trim()
 
-  if (!title) {
-    return { success: false, message: "عنوان ضروری ہے۔" }
+  if (!title || !downloadLink) {
+    return { success: false, message: "عنوان اور ڈاؤن لوڈ لنک ضروری ہیں۔" }
   }
 
   // Check if user is admin or team member for auto-approval
@@ -36,10 +36,6 @@ export async function createBook(prevState: any, formData: FormData) {
   const approved = shouldAutoApprove
   const publishedAt = shouldAutoApprove ? new Date().toISOString() : null
 
-  // Upload cover if provided
-  const uploadedImages = await uploadImagesFromFormData(formData, ['cover'])
-  const cover = uploadedImages.cover || ''
-
   // Process tags
   const tagsArray = tags ? tags.split(',').map(tag => tag.trim()).filter(tag => tag) : []
 
@@ -47,7 +43,7 @@ export async function createBook(prevState: any, formData: FormData) {
     title,
     author,
     description,
-    cover,
+    downloadLink,
     category,
     tags: tagsArray,
     status,

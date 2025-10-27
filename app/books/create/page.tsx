@@ -43,7 +43,7 @@ export default function CreateBookPage() {
             <CardTitle className="text-red-400">تفصیلات درج کریں</CardTitle>
           </CardHeader>
           <CardContent>
-            <form action={formAction} encType="multipart/form-data" className="grid grid-cols-1 md:grid-cols-2 gap-6" dir="rtl">
+            <form action={formAction} className="grid grid-cols-1 md:grid-cols-2 gap-6" dir="rtl">
               <div>
                 <label htmlFor="title" className="block mb-2">عنوان</label>
                 <Input id="title" name="title" className="bg-gray-700 border-blue-600" required />
@@ -57,14 +57,23 @@ export default function CreateBookPage() {
                 <Textarea id="description" name="description" className="bg-gray-700 border-blue-600" rows={4} />
               </div>
               <div className="md:col-span-2">
-                <label htmlFor="cover" className="block mb-2">کور</label>
+                <label htmlFor="downloadLink" className="block mb-2">ڈاؤن لوڈ لنک</label>
                 <Input 
-                  id="cover" 
-                  name="cover" 
-                  type="file"
-                  accept="image/*"
-                  className="w-full h-auto bg-transparent border-0 text-blue-100 placeholder:text-blue-300/70 focus:ring-0 text-right file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 file:cursor-pointer" 
+                  id="downloadLink" 
+                  name="downloadLink" 
+                  type="url"
+                  className="bg-gray-700 border-blue-600" 
+                  placeholder="https://example.com/book.pdf"
+                  required
                 />
+              </div>
+              <div className="md:col-span-2">
+                <label htmlFor="category" className="block mb-2">قسم</label>
+                <Input id="category" name="category" className="bg-gray-700 border-blue-600" />
+              </div>
+              <div className="md:col-span-2">
+                <label htmlFor="tags" className="block mb-2">ٹیگز</label>
+                <Input id="tags" name="tags" className="bg-gray-700 border-blue-600" placeholder="ٹیگز کو کاما سے الگ کریں" />
               </div>
               <div className="md:col-span-2 flex gap-3 items-center">
                 <Button type="submit" className="bg-blue-700 hover:bg-blue-800">محفوظ کریں</Button>

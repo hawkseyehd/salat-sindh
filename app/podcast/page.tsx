@@ -4,6 +4,16 @@ import { listItems } from "@/lib/json-store"
 import { getSession } from "@/lib/auth"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { AudioPlayer } from "@/components/audio-player"
+
+// Function to get YouTube thumbnail
+function getYouTubeThumbnail(url: string) {
+  const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/)
+  if (match && match[1]) {
+    return `https://img.youtube.com/vi/${match[1]}/maxresdefault.jpg`
+  }
+  return null
+}
 
 async function getPodcasts() {
   return listItems<any>("podcast")
@@ -34,27 +44,35 @@ export default async function PodcastPage() {
                 <CardHeader className="pb-0">
                   <CardTitle className="text-2xl font-semibold text-red-400 text-right">{podcast.title}</CardTitle>
                   <CardDescription className="text-blue-300 text-base text-right">
-                    {"قسم:"} {podcast.type === "audio" ? "آڈیو" : "ویڈیو"} | {"زمرہ:"} {podcast.category}
+                    {"قسم:"} {podcast.mediaType === "audio" ? "آڈیو" : "ویڈیو"} | {"زمرہ:"} {podcast.category}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="p-6 pt-4 flex flex-col flex-grow justify-between text-right">
-                  {podcast.type === "video" ? (
-                    <div className="relative w-full mb-6" style={{ paddingBottom: "56.25%" }}>
-                      <iframe
-                        className="absolute top-0 left-0 w-full h-full rounded-md"
-                        src={podcast.embedUrl}
-                        title={podcast.title}
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowFullScreen
-                      ></iframe>
+                  {podcast.mediaType === "video" ? (
+                    <div className="relative w-full mb-6" style={{ paddingBottom: '56.25%' }}>
+                      {getYouTubeThumbnail(podcast.mediaUrl) && (
+                        <>
+                          <img 
+                            src={getYouTubeThumbnail(podcast.mediaUrl)!} 
+                            alt={podcast.title} 
+                            className="absolute top-0 left-0 w-full h-full object-cover rounded-md"
+                          />
+                          <div className="absolute inset-0 flex items-center justify-center bg-black/20 hover:bg-black/10 transition-colors rounded-md">
+                            <div className="w-16 h-16 rounded-full bg-red-600/80 flex items-center justify-center hover:bg-red-600 transition-colors">
+                              <svg className="w-10 h-10 text-white ml-2" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"/>
+                              </svg>
+                            </div>
+                          </div>
+                        </>
+                      )}
                     </div>
                   ) : (
-                    <div className="w-full mb-6">
-                      <audio controls className="w-full rounded-md bg-gray-700 p-2">
-                        <source src={podcast.src} type="audio/mpeg" />
-                        {"آپ کا براؤزر آڈیو عنصر کو سپورٹ نہیں کرتا۔"}
-                      </audio>
-                    </div>
+                    <AudioPlayer 
+                      src={podcast.mediaUrl}
+                      title={podcast.title}
+                      className="mb-6"
+                    />
                   )}
                   <p className="text-blue-200 text-right leading-relaxed">{podcast.description}</p>
                 </CardContent>
